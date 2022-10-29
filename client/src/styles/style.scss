@@ -1,0 +1,338 @@
+//variables
+$background-color: #f6eee0;
+$title-color:#003060;
+$secondary-color: #e55b13;
+$paragraph-color: #a47551; 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+}
+
+//components
+.navbar {
+    display: flex;
+    padding-top: 1.75rem;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $background-color;
+    color: $title-color;
+    .logo {
+        font-size: 1rem;
+    }
+    .navigation {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+    }  
+    .searchbar {
+        height: 35px;
+        width: 300px;
+    }
+}
+
+.landing {
+    background-color: $background-color;
+    width: 100vw;
+    display: flex;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+    p {
+        max-width: 75%;
+        margin: 2rem 0;
+        line-height: 150%;
+        color: #a47551;
+        font-size: 1.1rem;
+    }
+    justify-content: space-between;
+    img {
+        object-fit: cover;
+    }
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    background-color: $title-color;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.dark {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    overflow: hidden;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+}
+.card {
+    position: fixed;
+    left: 50%;
+    transform-origin: 0%;
+    transition: all 0.5s ease-in-out;
+    top: 50%;
+    scale: 0;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 2.5rem 4.5rem;
+    border-radius: 10px;
+
+    h1 {
+        color: $title-color;
+        margin-bottom: 1rem;
+    }
+    .btn {
+        margin-top: 1rem;
+    }
+    svg {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        transition: all 0.25s ease-in-out;
+        color: $title-color;
+        cursor: pointer;
+        padding: 2px;
+        transform: scale(1.66);
+        &:hover {
+            transform: scale(1.75) rotate(90deg);
+        }
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 1rem;
+
+        div {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            
+            label {
+                margin-top: 1rem;
+                color: $title-color;
+            }
+        }
+    }
+}
+
+.home {
+    padding-top: 2.5rem;
+    min-height: 80vh;
+    padding-left: 10%;
+    background-color: white;
+    .row {
+        h2 {
+            color: $title-color;
+            font-size: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        padding-bottom: 4rem;
+        &>div {
+            padding: 1rem;
+            display: flex;
+            overflow-x: scroll;
+            justify-content: flex-start;
+            gap: 4rem;
+        }
+    }
+}
+.book-card {
+    i,svg {
+        color: rgb(255, 153, 0);
+    }
+    .price {
+        color: rgb(0, 115, 0) !important;
+    }
+    margin-bottom: 1rem;
+    background-color: white;
+    display: flex;
+    width: 225px;
+    box-shadow: 0 0 20px rgba($color: #000000, $alpha: 0.5);
+    border-radius: 10px;
+    flex-direction: column;
+    .btn {
+        font-size: 1rem;
+        padding: 7.5px 20px;
+    }
+    &>div{
+        padding: 1rem;
+    }
+    h3, .price {
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+        color: $title-color;
+    }
+    .author, .rating {
+        font-size: 1rem;
+        color: $paragraph-color;
+    }
+    .flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        div {
+            display: flex;
+            flex-direction: column;
+            gap: 7.5px;
+        }
+    }
+    img {
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        width: 225px;
+        height: 175px;
+    }
+}
+.uploadPage {
+    .publish {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%) translateY(-2.5rem);
+        font-size: 1.75rem;
+
+        padding: 1rem 3rem;
+        text-align: center;
+    }
+    .tags {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        position: relative;
+        flex-wrap: wrap;
+        width: 100%
+    }
+    .together {
+        display: flex;
+        margin-top: 2rem;
+        align-items: align-start;
+        justify-content: space-between;
+    }
+    padding: 5rem 10%;
+    .title {
+        text-align: center;
+    }
+    .book-card .btn {
+        pointer-events: none;
+    }
+    .left {
+        border-radius: 10px;
+        // box-shadow: 0 0 30px rgba($color: #000000, $alpha: 0.15);
+        // padding: 0rem 5rem;
+    }
+    .dflex {
+        display: flex;
+        flex-direction: column;
+        label {
+            color: $paragraph-color;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        div {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+    }
+    input, .textarea {
+        margin-bottom: 2rem;
+    }
+    input[type='file'] {
+        width: 150px;
+        height: 45px;
+        cursor: pointer;
+        color: white;
+        position: relative;
+    }
+    input[type='file']::after {
+        position: absolute;
+        top: 0;
+        padding-top: 10px;
+        font-size: 1.25rem;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background-color: $secondary-color;
+        content: 'Upload file';
+    }
+    .file::after {
+        content: 'Upload file' !important;
+    }
+}
+
+.detailsPage {
+    background-color: $background-color;
+    padding: 5rem 0;
+    display: flex;
+    gap: 5rem;
+    
+    .right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        p {
+            margin-top: 2.5rem;
+            color: $title-color;
+            font-size: 1.1rem;
+            line-height: 175%;
+        }
+    }
+    .description {
+        min-height: 200px;
+    }
+    ul {
+        list-style: none;
+        li {
+            color: $title-color;
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+    }
+    img {
+        width: 250px;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        p {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            margin-top: 2.5rem;
+            color: $paragraph-color;
+        }
+    }
+    .price {
+        margin-top: 0 !important;
+        color: rgb(0, 115, 0) !important;
+        font-size: 1.5rem;
+    }
+    .flex {
+        margin-top: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5rem;
+    }
+}
+
+@import './utilities.scss';

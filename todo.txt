@@ -1,0 +1,26 @@
+Todo:
+
+- uploading books
+- pdf uploader
+- list the newest books
+- infinite scroll on the book sections
+- book details page
+- book page with local storage-ing your page for each book
+- search for books, authors and tags
+- start reading books (+1 readers)
+- most popular books
+- rate books
+- comment on books - post, update, delete 
+- highest rated books
+- books you are reading
+- book you have written
+- payment itegration
+- dark theme
+- view profile
+- documentation describing all functionalities
+- unit testing
+- deployment
+- bug fixes
+- clean code
+- recommended books -> based on your reading list tags
+
