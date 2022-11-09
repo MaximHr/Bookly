@@ -1,20 +1,15 @@
 Todo:
 
-- uploading books
+- save user info with seassion storage
 - pdf uploader
-- list the newest books
 - infinite scroll on the book sections
-- book details page
 - book page with local storage-ing your page for each book
 - search for books, authors and tags
-- start reading books (+1 readers)
-- most popular books
 - rate books
-- comment on books - post, update, delete 
 - highest rated books
-- books you are reading
 - book you have written
-- payment itegration
+- your profile
+- payment integration
 - dark theme
 - view profile
 - documentation describing all functionalities
@@ -22,5 +17,4 @@ Todo:
 - deployment
 - bug fixes
 - clean code
-- recommended books -> based on your reading list tags
 

@@ -10,6 +10,7 @@ import Landing from './Pages/Landing';
 import Home from './Pages/Home';
 import BookDetail from './Pages/BookDetail';
 import Upload from './Pages/Upload';
+import SearchPage from './Pages/SearchPage';
 //style
 import './styles/style.scss';
 
@@ -44,15 +45,19 @@ const App = () => {
 				/>
 				<Route 
 					path='/home' 
-					element={!user ? <Landing /> : <Home />} 
+					element={!user ? <Landing /> : <Home user={user}/>} 
 				/>
 				<Route 
 					path='book/:id' 
-					element={!user ? <Landing /> : <BookDetail />}
+					element={!user ? <Landing /> : <BookDetail user={user} setUser={setUser}/>}
 				/>
 				<Route 
 					path='upload'
 					element={!user ? <Landing /> : <Upload user={user}/>}
+				/>
+				<Route 
+					path='search/:name'
+					element={!user ? <Landing /> : <SearchPage/>}
 				/>
 
 			</Routes>

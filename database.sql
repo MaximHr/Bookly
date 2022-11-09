@@ -5,8 +5,11 @@ CREATE TABLE Users(
     name VARCHAR(255),
     email VARCHAR(255) UNIQUE NOT NULL,
     password text NOT NULL,
+    gender VARCHAR(10) NOT NULL,
     age INT NOT NULL,
-    school VARCHAR(255) NOT NULL
+    school VARCHAR(255) NOT NULL,
+    ratedBooks INT[], 
+    readBooks INT[] --масив с id-то на прочетените книги
 );
 
 CREATE TABLE Books(
@@ -19,15 +22,18 @@ CREATE TABLE Books(
     file text UNIQUE NOT NULL, -- път към pdf файла
     cover text NOT NULL, -- линк към вече качената снимка в imgur
     user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES Users(id)
+    FOREIGN KEY (user_id) REFERENCES Users(id),
+    summedRating INT DEFAULT 0,
+    numberOfRatings INT DEFAULT 0
+    -- за да се вземе рейтингът се разделя summedRatings с numberOfRatings
 );
 
 CREATE TABLE Comments(
     id SERIAL PRIMARY KEY,
     text text NOT NULL,
-    user_id INT NOT NULL,
+    user_id INT NOT NULL, -- човекът, който пише коментара
     FOREIGN KEY (user_id) REFERENCES Users(id),
-    book_id INT NOT NULL,
+    book_id INT NOT NULL, --книгата, на която е написан коментарът
     FOREIGN KEY (book_id) REFERENCES Books(id)
 );
 

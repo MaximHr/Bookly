@@ -43,9 +43,13 @@ const SignIn = ({setUser}) => {
 	}
 
 	return (
-		<div className="dark" onClick={(e) => closeHandler(e)}>
+		<div className="dark" onMouseDown={(e) => closeHandler(e)}>
 			<div className={isScaled ? 'card scaled' : 'card'}>
-				<FontAwesomeIcon icon={faXmark} onClick={() => navigate('/')}/>
+				<FontAwesomeIcon 
+					className='icon' 
+					icon={faXmark} 
+					onClick={() => navigate('/')}
+				/>
 				<h1>Hello, again !</h1>
 				<form className="form" onSubmit={(e) => submitHandler(e)}>
 					<div>

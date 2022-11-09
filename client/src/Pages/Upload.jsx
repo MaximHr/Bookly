@@ -55,7 +55,6 @@ const Upload = ({user}) => {
 			})
 		} else {
 			try {
-
 				const response = await axios.post('http://localhost:5000/books/upload', {
 					title,
 					description,
@@ -86,7 +85,7 @@ const Upload = ({user}) => {
 	}
 
 	return (
-		<form className='uploadPage' onSubmit={uploadBook}>
+		<form className='uploadPage'>
 			<ToastContainer  />
 			<h1 className="title">Upload Your Book!</h1>
 			<div className='together'>
@@ -191,7 +190,7 @@ const Upload = ({user}) => {
 				</div>
 			</div>
 			<div className='mtb5'>
-				<button type='submit' className="btn green publish" >Publish</button>
+				<button onClick={uploadBook} className="btn green publish" >Publish</button>
 			</div>
 		</form>
 	)

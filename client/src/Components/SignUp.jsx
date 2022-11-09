@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SignUp = ({setUser}) => {
+	const [page, setPage] = useState(0);
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [age, setAge] = useState('');
 	const [school, setSchool] = useState('');
+	const [gender, setGender] = useState('');
 
 	const navigate = useNavigate();
 	const [isScaled, setIsScaled] = useState(false);
@@ -22,8 +24,8 @@ const SignUp = ({setUser}) => {
 	const submitHandler = async(e) => {
 		e.preventDefault();
 		try {
-			if(name && email && age && school && password.length > 5) {
-				const body = {name, email, password, age, school};
+			if(name && email && age && school && gender && password.length > 5) {
+				const body = {name, email, password, age, school, gender};
 				const response = await axios.post('http://localhost:5000/users/register', body);
 				
 				if(response.status === 200) {
@@ -50,67 +52,109 @@ const SignUp = ({setUser}) => {
 	}
 
 	return (
-		<div className="dark"  onClick={(e) => closeHandler(e)}>
+		<div className="dark"  onMouseDown={(e) => closeHandler(e)}>
 			<div className={isScaled ? 'card scaled' : 'card'}>
-				<FontAwesomeIcon icon={faXmark}  onClick={() => navigate('/')}/>
+				<FontAwesomeIcon className='icon' icon={faXmark}  onClick={() => navigate('/')}/>
 				<h1>Create an account</h1>
-				<form className="form" onSubmit={(e) => submitHandler(e)}>
-					<div>
-						<label>Name: </label>
-						<input 
-							className='input'
-							value={name} 
-							onChange={(e) => setName(e.target.value)} 
-							type="text" 
-							placeholder='Username'
-						/>
-					</div>
-					<div>
-						<label>Email: </label>
-						<input 
-							className='input'
-							type="email" 
-							placeholder='Email'
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
+				<form className="form">
+					{
+						page === 0 ? (
+							<>
+							<div>
+								<label>Name: </label>
+								<input 
+									className='input'
+									value={name} 
+									onChange={(e) => setName(e.target.value)} 
+									type="text" 
+									placeholder='Username'
+								/>
+							</div>
+							<div>
+								<label>Email: </label>
+								<input 
+									className='input'
+									type="email" 
+									placeholder='Email'
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
 
-						/>
-					</div>
-					<div>
-						<label>Age: </label>
-						<input 
-							className='input'
-							type="number" 
-							placeholder='Age'
-							value={age}
-							min='1'
-							onChange={(e) => setAge(e.target.value)}
+								/>
+							</div>
+							<div>	
+								<label>Password: </label>
+								<input 
+									className='input'
+									type="password" 
+									placeholder='Password'
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+								/>
+							</div>
+							<button className="btn" type='submit' onClick={() => setPage(1)}>Next <FontAwesomeIcon icon={faArrowRight} /></button>
+							</>
+						) : (
+							<>
+							<div>
+								<label>Age: </label>
+								<input 
+									className='input'
+									type="number" 
+									placeholder='Age'
+									value={age}
+									min='1'
+									onChange={(e) => setAge(e.target.value)}
 
-						/>
-					</div>
-					<div>
-						<label>School: </label>
-						<input 
-							className='input'
-							type="text" 
-							placeholder='School'
-							value={school}
-							onChange={(e) => setSchool(e.target.value)}
-						/>
-					</div>
-					<div>	
-						<label>Password: </label>
-						<input 
-							className='input'
-							type="password" 
-							placeholder='Password'
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-					</div>
-
-					<button className="btn" type='submit'>Submit</button>
-					
+								/>
+							</div>
+							<div>
+								<label>School: </label>
+								<input 
+									className='input'
+									type="text" 
+									placeholder='School'
+									value={school}
+									onChange={(e) => setSchool(e.target.value)}
+								/>
+							</div>
+							<div>
+								<label>Gender: </label>
+								<div className='radio-container'>
+									<input 
+										type="radio" 
+										name='gender' 
+										value="Male"
+										onChange={(e) => setGender(e.target.value)}
+									/>
+									<label>Male</label>
+								</div>
+								<div className='radio-container'>
+									<input 
+										type="radio" 
+										name='gender' 
+										value="Female"
+										onChange={(e) => setGender(e.target.value)}
+									/>
+									<label>Female</label>
+								</div>
+								<div className='radio-container'>
+									<input 
+										type="radio" 
+										name='gender' 
+										value="Other" 
+										onChange={(e) => setGender(e.target.value)}
+									/>
+									<label>Other</label>
+								</div>
+							</div>
+							<div className='btn-container'>
+								<button className="btn outline" onClick={() => setPage(0)}>Go back</button>
+								<button className="btn" onClick={submitHandler}>Submit</button>
+							</div>
+								
+							</>
+						)
+					}
 					<p className={error === 'no errors' ? 'hidden error' : 'error'}>{error}</p>
 				</form>
 				

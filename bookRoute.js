@@ -3,11 +3,23 @@ const router = require('express').Router();
 const fs = require('fs');
 const {v4: uuidv4} = require('uuid');
 
+
+router.get('/:id', async(req, res) => {
+    const {id} = req.params;
+    try {
+        const book = await pool.query('SELECT * FROM Books WHERE id=$1', [id]);
+        res.json(book.rows[0]);
+
+    }catch(err) {
+        res.status(500).send(err.message);
+    }
+})
+
 router.post('/upload', async(req, res) => {
 
     const {title, file, cover, price, description, tags, user_id} = req.body;
     
-    console.log(req.body)
+    console.log(req.body);
     try {
         const fileName = uuidv4();
         fs.appendFile(`./files/${fileName}`, file, err => {
@@ -30,7 +42,31 @@ router.get('/new/:offset/:limit', async(req, res) => {
 
         // res.json(books.rows)
 
-        const books = await pool.query('SELECT Books.id, name, cover, title, price, file FROM Users JOIN Books ON Books.user_id = Users.id ORDER BY Books.id DESC OFFSET $1 LIMIT $2', [offset, limit]);
+        const books = await pool.query('SELECT Books.id, Users.name, cover, title, price, file FROM Users JOIN Books ON Books.user_id = Users.id ORDER BY Books.id DESC OFFSET $1 LIMIT $2', [offset, limit]);
+
+        res.json(books.rows)
+
+    }catch(err) {
+        res.status(500).send(err.message);
+    }
+});
+
+router.get('/popular/:offset/:limit', async(req, res) => {
+    const {offset, limit} = req.params;
+    try {
+        const books = await pool.query('SELECT Books.id, name, cover, title, price, file FROM Users JOIN Books ON Books.user_id = Users.id ORDER BY Books.views DESC OFFSET $1 LIMIT $2', [offset, limit]);
+
+        res.json(books.rows)
+
+    }catch(err) {
+        res.status(500).send(err.message);
+    }
+});
+
+router.get('/highestRated/:offset/:limit', async(req, res) => {
+    const {offset, limit} = req.params;
+    try {
+        const books = await pool.query('SELECT Books.id, name, cover, title, price, file FROM Users JOIN Books ON Books.user_id = Users.id ORDER BY Books.summedRatings/numberOfRatings DESC OFFSET $1 LIMIT $2', [offset, limit]);
 
         res.json(books.rows)
 
@@ -43,14 +79,29 @@ router.get('/new/:offset/:limit', async(req, res) => {
 //book detail page
 router.get('/details/:id', async(req,res) => {
     try {
-        const details = await pool.query('SELECT age, name, school, title, description, price, tags, cover FROM Users JOIN Books ON Books.user_id = Users.id WHERE file=$1', [req.params.id]);
+        const details = await pool.query('SELECT Books.id, age, name, school, gender, title, description, price, tags, cover FROM Users JOIN Books ON Books.user_id = Users.id WHERE file=$1', [req.params.id]);
 
         res.json(details.rows[0]);
 
     }catch(err) {
         res.status(500).send(err.message);
     }
-})
+});
+
+// add new rating
+router.put('/addRating', async(req, res) => {
+    const {bookId, rating, userId} = req.body;
+    try {
+        const updatedBook = await pool.query('UPDATE Books SET summedRating=summedRating + $1 numberOfRating=numberOfRatings + $2 WHERE id=$3 RETURNING *', [rating, 1, bookId]);
+
+        const updatedUser = await pool.query('UPDATE Users SET ratedBooks=array_append(ratedBooks, $1) WHERE id=$2',[bookId, userId]);
+
+        res.json({updatedBook, updatedUser});
+
+    }catch(err) {
+        res.status(500).send(err.message);
+    }
+});
 
 
 module.exports = router;
