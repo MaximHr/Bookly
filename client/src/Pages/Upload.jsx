@@ -48,6 +48,16 @@ const Upload = ({user}) => {
 	const uploadBook = async(e) => {
 		e.preventDefault();
 
+		
+		let formData = new FormData();
+		formData.append('file', pdf);
+		let upload2 = await fetch('http://localhost:5000/books/upload2', {
+			method: 'POST',
+			body: formData
+		});
+
+		console.log(upload2)
+	
 		if(title.replaceAll(' ', '').length === 0 || description.replaceAll(' ', '').length === 0 || tags.length === 0 || pdf.name === undefined){
 			toast.error('Please fill out the forms !', {
 				autoClose: 2500,
@@ -55,6 +65,7 @@ const Upload = ({user}) => {
 			})
 		} else {
 			try {
+
 				const response = await axios.post('http://localhost:5000/books/upload', {
 					title,
 					description,
@@ -85,7 +96,7 @@ const Upload = ({user}) => {
 	}
 
 	return (
-		<form className='uploadPage'>
+		<div className='uploadPage'>
 			<ToastContainer  />
 			<h1 className="title">Upload Your Book!</h1>
 			<div className='together'>
@@ -192,7 +203,7 @@ const Upload = ({user}) => {
 			<div className='mtb5'>
 				<button onClick={uploadBook} className="btn green publish" >Publish</button>
 			</div>
-		</form>
+		</div>
 	)
 }
 

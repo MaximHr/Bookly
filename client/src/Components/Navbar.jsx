@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import logo from '../Images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 const Navbar = ({user}) => {
 	const [searchValue, setSearchValue] = useState('');
 	const navigate = useNavigate();
+	const location = useLocation();
+
+	const navType = (location.pathname === '/' || location.pathname === '/signIn' || location.pathname === '/signUp') || (!sessionStorage.getItem('user') || !user);
 
 	const searchHandler = () => {
 		if(searchValue.replaceAll(' ', '') !== '') {
@@ -14,13 +17,13 @@ const Navbar = ({user}) => {
 		}
 	}
 	return (
-		<div className='navbar container' style={user ? {backgroundColor:'white', paddingBottom: '2rem'} : {}}>
+		<div className='navbar container' style={ !navType ? {backgroundColor:'white', paddingBottom: '2rem'} : {}}>
 
 			<div className="logo">
 				<img src={logo} alt="Logo" />
 			</div>
 			{
-				user ? (
+				!navType ? (
 					<div className='search-container'>
 						<input 
 							onChange={(e) => setSearchValue(e.target.value)}
@@ -32,7 +35,7 @@ const Navbar = ({user}) => {
 								}
 							}}
 							className='input searchbar' 
-							placeholder='Search for a book or author'
+							placeholder='Search for books, authors or tags'
 						/>
 						<button className="btn" onClick={searchHandler}>
 							<FontAwesomeIcon icon={faSearch}/>
@@ -43,7 +46,7 @@ const Navbar = ({user}) => {
 			}
 			<div className="navigation">
 				{
-					!user ? (
+					navType ? (
 						<>
 							<Link className='btn' to='/signIn'>Sign In</Link>
 							<Link className='btn' to='/signUp'>Sign Up</Link>

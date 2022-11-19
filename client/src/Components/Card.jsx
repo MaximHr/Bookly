@@ -7,7 +7,7 @@ const Card = (props) => {
 	return (
 		<div className='book-card' 
 		style={{
-			left: -props.scroll
+			left: -props.scroll || 0
 		}}>
 			<img src={props.img} alt="Cover" />
 			<div>
@@ -18,7 +18,7 @@ const Card = (props) => {
 				<div className='flex'>	
 					<div>
 						<p className="author">{props.author}</p>
-						<p className="rating">{props.rating} <FontAwesomeIcon icon={faStar}/></p>
+						<p className="rating">{props.rating || 0} <FontAwesomeIcon icon={faStar}/></p>
 					</div>
 					<Link className="btn" to={`/book/${props.id}`}>Read
 					</Link>

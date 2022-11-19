@@ -4,16 +4,18 @@ const bcrypt = require('bcrypt');
 
 //create a user
 router.post('/register', async(req, res) => {
+    console.log(req.body)
     try {
         const {email, name, password, age, school, gender} = req.body;
         if(password.length > 5 && email && name) {
-
+            console.log(req.body);
             //encrypt the password
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
 
             const  newUser = await pool.query('INSERT INTO Users (name, password, email, age, school, gender) VALUES($1, $2, $3, $4, $5, $6) RETURNING *', [name, hashedPassword, email, age, school, gender]);
 
+            delete newUser.rows[0].password;
             res.json(newUser.rows[0]);
         } else {
             res.status(500).send('Password is too weak')
@@ -29,7 +31,7 @@ router.post('/login', async(req, res) => {
     try {
         const {email, password} = req.body;
 
-        const user = await pool.query('SELECT * FROM Users WHERE email=$1', [email]);
+        const user = await pool.query(`SELECT * FROM Users WHERE email=$1`, [email]);
         
         if(user.rows.length === 0) {
             res.status(500).send('Incorrect email or password.');
@@ -39,6 +41,8 @@ router.post('/login', async(req, res) => {
         const checkPassword = bcrypt.compareSync(password, encryptedPassword);
 
         if(checkPassword) {
+            delete user.rows[0].password;
+            console.log(user.rows[0])
             res.json(user.rows[0]);
         } else {
             res.status(500).send('Incorrect email or password.');

@@ -8,14 +8,15 @@ const Home = ({user}) => {
 	const [yourBooks, setYourBooks] = useState([]);
 	const [popularBooks, setPopularBooks] = useState([]);
 	const [newBooks, setNewBooks] = useState([]);
+	const [highestRatedBooks, setHighestRatedBooks] = useState([]);
 	//custom scrollbar
 	const [yourBooksScroll, setYourBooksScroll] = useState(0);
 	const [newBooksScroll, setNewBooksScroll] = useState(0);
 	const [popularBooksScroll, setPopularBooksScroll] = useState(0);
+	const [highestRatedBooksScroll, setHighestRatedBooksScroll] = useState(0);
 
-	const fetchNewBooks = async() => {
+	const fetchBooks = async() => {
 		try {
-
 			//взима книгите, които чете потребителя
 			let readingList = [];
 			user.readbooks?.map(async(book) => {
@@ -44,14 +45,21 @@ const Home = ({user}) => {
 			if(getNewBooks.status === 200){
 				setNewBooks(getNewBooks.data);
 			}
+
+			//взима най-високо оценените книги
+			const getHighestRated = await axios.get(`http://localhost:5000/books/highestRated/0/8`);
+
+			if(getHighestRated.status === 200) {
+				setHighestRatedBooks(getHighestRated.data);
+			}
+
 		}catch(err) {
 			console.log(err);
 		}
 	}
 	useEffect(() => {
-		fetchNewBooks();
+		fetchBooks();
 	}, []);
-
 
 	return (
 		<div className='home'>
@@ -68,7 +76,7 @@ const Home = ({user}) => {
 								title={book.title}
 								price={book.price}
 								author={book.name}
-								rating='4.2 '
+								rating={Math.floor((book.summedrating / book.numberofratings) * 100) / 100}
 								scroll={yourBooksScroll}
 							/>
 						)
@@ -96,7 +104,7 @@ const Home = ({user}) => {
 								title={book.title}
 								price={book.price}
 								author={book.name}
-								rating='4.2 '
+								rating={Math.floor((book.summedrating / book.numberofratings) * 100) / 100}
 								scroll={popularBooksScroll}
 							/>
 						)
@@ -106,6 +114,34 @@ const Home = ({user}) => {
 						axis='x' 
 						bounds='parent' 
 						onDrag={(e,data) => setPopularBooksScroll(data.x)}
+					>
+						<div className="scrollbar"></div>
+					</Draggable>
+				</div>
+			</div>
+			<div className="row">
+				<h2>Highest rated books</h2>
+				<div className='scroll'>
+				{
+					highestRatedBooks.map(book => {
+						return(	
+							<Card 
+								key={book.id}
+								id={book.file}
+								img={book.cover}
+								title={book.title}
+								price={book.price}
+								author={book.name}
+								rating={Math.floor((book.summedrating / book.numberofratings) * 100) / 100}
+								scroll={highestRatedBooksScroll}
+							/>
+						)
+					})
+				}
+					<Draggable 
+						axis='x' 
+						bounds='parent' 
+						onDrag={(e,data) => setHighestRatedBooksScroll(data.x)}
 					>
 						<div className="scrollbar"></div>
 					</Draggable>
@@ -124,7 +160,7 @@ const Home = ({user}) => {
 								title={book.title}
 								price={book.price}
 								author={book.name}
-								rating='4.2 '
+								rating={Math.floor((book.summedrating / book.numberofratings) * 100) / 100}
 								scroll={newBooksScroll}
 							/>
 						)

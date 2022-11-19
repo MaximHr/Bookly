@@ -30,6 +30,7 @@ const SignUp = ({setUser}) => {
 				
 				if(response.status === 200) {
 					setUser(response.data);
+					sessionStorage.setItem('user', JSON.stringify(response.data));
 					navigate('/home');
 				}
 	

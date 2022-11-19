@@ -1,18 +1,15 @@
 Todo:
 
-- save user info with seassion storage
 - pdf uploader
 - infinite scroll on the book sections
 - book page with local storage-ing your page for each book
 - search for books, authors and tags
-- rate books
-- highest rated books
 - book you have written
 - your profile
 - payment integration
 - dark theme
 - view profile
-- documentation describing all functionalities
+- documentation describing all functionalities and translating
 - unit testing
 - deployment
 - bug fixes

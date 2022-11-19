@@ -23,9 +23,9 @@ CREATE TABLE Books(
     cover text NOT NULL, -- линк към вече качената снимка в imgur
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(id),
-    summedRating INT DEFAULT 0,
+    summedRating DECIMAL DEFAULT 0,
     numberOfRatings INT DEFAULT 0
-    -- за да се вземе рейтингът се разделя summedRatings с numberOfRatings
+    -- за да се вземе рейтингът,се разделя summedRatings с numberOfRatings
 );
 
 CREATE TABLE Comments(

@@ -84,7 +84,7 @@ const CommentSection = ({book, user, comments, setComments}) => {
 				!updateCard ? (
 					<></>
 				) : (
-					<div className='update-card'>
+					<div className='toggle-card'>
 						<FontAwesomeIcon 
 							className='close'
 							icon={faXmark} 

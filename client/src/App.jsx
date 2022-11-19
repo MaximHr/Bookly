@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Route, Routes} from 'react-router-dom';
 //components
 import Footer from './Components/Footer';
@@ -25,6 +25,12 @@ const App = () => {
 	// });
 
 	const [user, setUser] = useState();
+
+	useEffect(() => {
+		if(sessionStorage.getItem('user') !== null) {
+			setUser(JSON.parse(sessionStorage.getItem('user')));
+		}
+	}, []);
 
 	return (
 		<div>
