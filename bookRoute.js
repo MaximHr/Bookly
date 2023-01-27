@@ -15,40 +15,40 @@ router.get('/:id', async(req, res) => {
     }
 })
 
+
+// качва книгата
+let fileName = uuidv4();
 const storage = multer.diskStorage({
-    destination: './files',
+    destination: './client/src/files',
     filename: (req, file, cb) => {
-        cb(null, 'Hello' + '.pdf');
+        console.log(fileName)
+        cb(null, fileName + '.pdf');
     }
 })
 const upload = multer({storage: storage});
 
-router.post('/upload2', upload.single('file'), async(req, res) => {
-    
-})
-router.post('/upload', async(req, res) => {
+router.post('/uploadFile', upload.single('file'), async(req, res) => {
+    res.send('File Uploaded')
+});
 
-    const {title, file, cover, price, description, tags, user_id} = req.body;
+router.post('/upload', async(req, res) => {
+    const {title, cover, price, description, tags, user_id} = req.body;
     
-    console.log(req.body);
     try {
 
         const newBook = await pool.query('INSERT INTO Books (title, description, price, tags, file, cover, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', [title, description, JSON.parse(price), tags, fileName, cover, user_id]);
 
         res.json(newBook.rows[0]);
+        fileName = uuidv4();
     } catch(err) {
         res.status(500).send(err.message);
     }
 });
 
-//home page
+//home страницата
 router.get('/new/:offset/:limit', async(req, res) => {
     const {offset, limit} = req.params;
     try {
-        // const books = await pool.query('SELECT * FROM Books JOIN Users ON Users.id = Books.user_id ORDER BY Books.id DESC OFFSET $1 LIMIT $2', [offset, limit]);
-
-        // res.json(books.rows)
-
         const books = await pool.query('SELECT Books.id, Users.name, cover,summedRating, numberOfRatings, title, price, file FROM Users JOIN Books ON Books.user_id = Users.id ORDER BY Books.id DESC OFFSET $1 LIMIT $2', [offset, limit]);
 
         res.json(books.rows)
@@ -73,7 +73,7 @@ router.get('/popular/:offset/:limit', async(req, res) => {
 router.get('/highestRated/:offset/:limit', async(req, res) => {
     const {offset, limit} = req.params;
     try {
-        const books = await pool.query('SELECT Books.id, name, cover, title,summedRating, numberOfRatings, price, file FROM Users JOIN Books ON Books.user_id = Users.id ORDER BY books.summedRating / NULLIF(numberOfRatings, 0) DESC OFFSET $1 LIMIT $2', [offset, limit]);
+        const books = await pool.query('SELECT Books.id, name, cover, title,summedRating, numberOfRatings, price, file FROM Users JOIN Books ON Books.user_id = Users.id WHERE numberOfRatings != 0 ORDER BY books.summedRating / NULLIF(numberOfRatings, 0) DESC OFFSET $1 LIMIT $2', [offset, limit]);
 
         res.json(books.rows)
 
@@ -83,7 +83,7 @@ router.get('/highestRated/:offset/:limit', async(req, res) => {
 });
 
 
-//book detail page
+//bookDetail страницата
 router.get('/details/:id', async(req,res) => {
     try {
         const details = await pool.query('SELECT Books.id, age, name, school, gender, title, description, ratedBooks, price, summedRating, numberOfRatings, tags, cover FROM Users JOIN Books ON Books.user_id = Users.id WHERE file=$1', [req.params.id]);
@@ -95,7 +95,7 @@ router.get('/details/:id', async(req,res) => {
     }
 });
 
-// add new rating
+// нова оценка на книгата
 router.put('/addRating', async(req, res) => {
     const {bookId, rating, userId} = req.body;
     try {
@@ -110,25 +110,43 @@ router.put('/addRating', async(req, res) => {
     }
 });
 
-//search for book
-
+//търси за книга
 router.get('/search/:text', async(req, res) => {
-    //TODO: encode
     const {text} = req.params;
     try {
-        const searchTitle = await pool.query('', text);
+        // всички книги с подобно заглавие
+        const searchTitle = await pool.query('SELECT * FROM Books WHERE similarity(LOWER(title), LOWER($1)) > 0.4 ', [text]);
 
-        const searchTags = await pool.query('', text);
+        // всички книги с подобен автор
+        const searchAuthor = await pool.query('SELECT Books.id, name, cover, title, summedRating, numberOfRatings, price, file FROM Users JOIN Books ON Books.user_id = Users.id WHERE similarity(LOWER(name), LOWER($1)) > 0.4', [text]);
+
+        // всички книги с подобен таг
+        const searchTags = await pool.query('SELECT * FROM Books WHERE $1 ILIKE ANY(tags)', [text]);
+
 
         res.json({
-            searchTitle,
-            searchTags
+            'title' : searchTitle.rows,
+            'tags': searchTags.rows,
+            'author': searchAuthor.rows
         });
 
     }catch(err) {
         res.status(500).send(err.message);
     }
-})
+});
 
+
+//взима книгите на даден автор
+router.get('/byAuthor/:id', async(req, res) => {
+    const authorId = req.params.id;
+    try {
+        const books = await pool.query('SELECT * FROM Books WHERE user_id=$1', [authorId]);
+
+        res.json(books.rows);
+
+    }catch(err) {
+        res.status(500).send(err.message);
+    }
+})
 
 module.exports = router;

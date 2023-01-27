@@ -1,4 +1,5 @@
 CREATE DATABASE bookly;
+CREATE EXTENSION pg_trgm;
 
 CREATE TABLE Users(
     id SERIAL PRIMARY KEY,
@@ -25,7 +26,7 @@ CREATE TABLE Books(
     FOREIGN KEY (user_id) REFERENCES Users(id),
     summedRating DECIMAL DEFAULT 0,
     numberOfRatings INT DEFAULT 0
-    -- за да се вземе рейтингът,се разделя summedRatings с numberOfRatings
+    -- за да вземем рейтинга, разделяме summedRatings на numberOfRatings
 );
 
 CREATE TABLE Comments(

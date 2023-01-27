@@ -31,7 +31,10 @@ const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating}) => {
 				})
 			}
 		}catch(err) {
-			console.log(err);
+			toast.error('Sorry, there was an error. Try again later', {
+				autoClose: 2500,
+				position: 'top-center'
+			});
 		}
 	}
 

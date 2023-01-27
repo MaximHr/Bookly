@@ -51,7 +51,7 @@ const SignIn = ({setUser}) => {
 					icon={faXmark} 
 					onClick={() => navigate('/')}
 				/>
-				<h1>Hello, again !</h1>
+				<h1>Welcome back !</h1>
 				<form className="form" onSubmit={(e) => submitHandler(e)}>
 					<div>
 						<label>Email: </label>

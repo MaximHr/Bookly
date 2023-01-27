@@ -1,24 +1,30 @@
 const pool = require('./db');
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
+require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-//create a user
+
+//създаване на user
 router.post('/register', async(req, res) => {
-    console.log(req.body)
     try {
         const {email, name, password, age, school, gender} = req.body;
         if(password.length > 5 && email && name) {
-            console.log(req.body);
-            //encrypt the password
+
+            //криптира паролата
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
 
+            // payment account
+            // const account = await stripe.accounts.create({type: 'express', email: email});
+            // console.log(account);
+            
             const  newUser = await pool.query('INSERT INTO Users (name, password, email, age, school, gender) VALUES($1, $2, $3, $4, $5, $6) RETURNING *', [name, hashedPassword, email, age, school, gender]);
 
             delete newUser.rows[0].password;
-            res.json(newUser.rows[0]);
+            return res.json(newUser.rows[0]);
         } else {
-            res.status(500).send('Password is too weak')
+            return res.status(500).send('Password is too weak');
         }
 
     } catch (error) {
@@ -26,7 +32,7 @@ router.post('/register', async(req, res) => {
     }
 });
 
-// log in
+// влизане в профила
 router.post('/login', async(req, res) => {
     try {
         const {email, password} = req.body;
@@ -34,7 +40,7 @@ router.post('/login', async(req, res) => {
         const user = await pool.query(`SELECT * FROM Users WHERE email=$1`, [email]);
         
         if(user.rows.length === 0) {
-            res.status(500).send('Incorrect email or password.');
+            return res.status(500).send('Incorrect email or password.');
         }
         const encryptedPassword = user.rows[0].password;
 
@@ -42,10 +48,9 @@ router.post('/login', async(req, res) => {
 
         if(checkPassword) {
             delete user.rows[0].password;
-            console.log(user.rows[0])
-            res.json(user.rows[0]);
+            return res.json(user.rows[0]);
         } else {
-            res.status(500).send('Incorrect email or password.');
+            return res.status(500).send('Incorrect email or password.');
         }
 
 
@@ -55,7 +60,7 @@ router.post('/login', async(req, res) => {
 });
 
 
-//get user by id
+//взима user-ът според id-то му.
 router.get('/:id', async(req, res) => {
     try {
         const {id} = req.params;
@@ -68,7 +73,7 @@ router.get('/:id', async(req, res) => {
     }
 });
 
-//add book to users' reading list
+//добавя книга в reading list-а на клиента.
 router.put('/addBook', async(req, res) => {
     const{ userId, bookId } = req.body;
     try {
@@ -82,18 +87,5 @@ router.put('/addBook', async(req, res) => {
     }
 })
 
-
-// delete a user AND THEIR BOOKS/COMMENTS
-// router.delete('/user/delete/:id', async(req, res) => {
-
-//     try {
-//         const {id} = req.params;
-//         const user = pool.query('DELETE FROM User WHERE id=$1', [id]);
-//         res.json('Account Deleted');
-
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// })
 
 module.exports = router;

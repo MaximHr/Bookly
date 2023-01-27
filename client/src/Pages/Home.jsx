@@ -1,19 +1,14 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
-import Draggable from 'react-draggable';
 import Card from '../Components/Card';
+import { ToastContainer, toast } from 'react-toastify';
 
+//страницата с книгите за клиентът
 const Home = ({user}) => {
-	//books
 	const [yourBooks, setYourBooks] = useState([]);
 	const [popularBooks, setPopularBooks] = useState([]);
 	const [newBooks, setNewBooks] = useState([]);
 	const [highestRatedBooks, setHighestRatedBooks] = useState([]);
-	//custom scrollbar
-	const [yourBooksScroll, setYourBooksScroll] = useState(0);
-	const [newBooksScroll, setNewBooksScroll] = useState(0);
-	const [popularBooksScroll, setPopularBooksScroll] = useState(0);
-	const [highestRatedBooksScroll, setHighestRatedBooksScroll] = useState(0);
 
 	const fetchBooks = async() => {
 		try {
@@ -32,29 +27,53 @@ const Home = ({user}) => {
 			})
 			setYourBooks(readingList);
 
+		}catch(err) {
+			toast.error("Sorry, your reading list couldn't load.", {
+				autoClose: 2500,
+				position: 'top-center'
+			});
+		}
+
+		try {
 			// взима книгите с най-много четения
-			const getPopularBooks = await axios.get(`http://localhost:5000/books/popular/0/8`);
+			const getPopularBooks = await axios.get(`http://localhost:5000/books/popular/0/250`);
 
 			if(getPopularBooks.status === 200) {
 				setPopularBooks(getPopularBooks.data);
 			}
+		}catch(err) {
+			toast.error("Sorry, the most popular books couldn't load", {
+				autoClose: 2500,
+				position: 'top-center'
+			});
+		}
 
+		try {
 			// взима най-скорошните книги
-			const getNewBooks = await axios.get(`http://localhost:5000/books/new/0/8`);
+			const getNewBooks = await axios.get(`http://localhost:5000/books/new/0/250`);
 
 			if(getNewBooks.status === 200){
 				setNewBooks(getNewBooks.data);
 			}
+		}catch(err) {
+			toast.error("Sorry, the newest books couldn't load", {
+				autoClose: 2500,
+				position: 'top-center'
+			});
+		}
 
+		try {
 			//взима най-високо оценените книги
-			const getHighestRated = await axios.get(`http://localhost:5000/books/highestRated/0/8`);
+			const getHighestRated = await axios.get(`http://localhost:5000/books/highestRated/0/250`);
 
 			if(getHighestRated.status === 200) {
 				setHighestRatedBooks(getHighestRated.data);
 			}
-
 		}catch(err) {
-			console.log(err);
+			toast.error("Sorry, the highest rated books couldn't load", {
+				autoClose: 2500,
+				position: 'top-center'
+			});
 		}
 	}
 	useEffect(() => {
@@ -63,6 +82,7 @@ const Home = ({user}) => {
 
 	return (
 		<div className='home'>
+			<ToastContainer />
 			<div className="row"> 
 				<h2>Your reading list</h2>
 				<div className='scroll'>
@@ -77,18 +97,10 @@ const Home = ({user}) => {
 								price={book.price}
 								author={book.name}
 								rating={Math.floor((book.summedrating / book.numberofratings) * 100) / 100}
-								scroll={yourBooksScroll}
 							/>
 						)
 					})
 				}
-					<Draggable 
-						axis='x' 
-						bounds='parent' 
-						onDrag={(e,data) => setYourBooksScroll(data.x)}
-					>
-						<div className="scrollbar"></div>
-					</Draggable>
 				</div>
 			</div>
 			<div className="row">
@@ -105,18 +117,10 @@ const Home = ({user}) => {
 								price={book.price}
 								author={book.name}
 								rating={Math.floor((book.summedrating / book.numberofratings) * 100) / 100}
-								scroll={popularBooksScroll}
 							/>
 						)
 					})
 				}
-					<Draggable 
-						axis='x' 
-						bounds='parent' 
-						onDrag={(e,data) => setPopularBooksScroll(data.x)}
-					>
-						<div className="scrollbar"></div>
-					</Draggable>
 				</div>
 			</div>
 			<div className="row">
@@ -133,18 +137,10 @@ const Home = ({user}) => {
 								price={book.price}
 								author={book.name}
 								rating={Math.floor((book.summedrating / book.numberofratings) * 100) / 100}
-								scroll={highestRatedBooksScroll}
 							/>
 						)
 					})
 				}
-					<Draggable 
-						axis='x' 
-						bounds='parent' 
-						onDrag={(e,data) => setHighestRatedBooksScroll(data.x)}
-					>
-						<div className="scrollbar"></div>
-					</Draggable>
 				</div>
 			</div>
 			<div className="row">
@@ -161,19 +157,10 @@ const Home = ({user}) => {
 								price={book.price}
 								author={book.name}
 								rating={Math.floor((book.summedrating / book.numberofratings) * 100) / 100}
-								scroll={newBooksScroll}
 							/>
 						)
 					})
 				}		
-				
-					<Draggable 
-						axis='x' 
-						bounds='parent' 
-						onDrag={(e,data) => setNewBooksScroll(data.x)}
-					>
-						<div className="scrollbar"></div>
-					</Draggable>
 				</div>	
 			</div>
 		</div>

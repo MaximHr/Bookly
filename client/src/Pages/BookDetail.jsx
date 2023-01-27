@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import RateCard from '../Components/RateCard';
 import CommentSection from '../Components/CommentSection';
 
+// компонент, показващ страницата с повече информация за книгата
 const BookDetail = ({user, setUser}) => {
 	const location = useLocation();
 	const [book, setBook] = useState({});
@@ -25,7 +26,10 @@ const BookDetail = ({user, setUser}) => {
 				setComments(response.data);
 			}
 		}catch(err) {
-			console.log(err);
+			toast.error('Sorry, there was an error. Try again later', {
+				autoClose: 2500,
+				position: 'top-center'
+			});
 		}
 	}
 
@@ -48,7 +52,7 @@ const BookDetail = ({user, setUser}) => {
 				navigate('./read');
 			}
 		} else {
-			console.log('buy this book')
+			console.log('buy this book');
 		}
 	}
 
@@ -61,7 +65,10 @@ const BookDetail = ({user, setUser}) => {
 				getComments(response.data);
 			}
 		}catch(err) {
-			console.log(err);
+			toast.error('Sorry, there was an error. Try again later', {
+				autoClose: 2500,
+				position: 'top-center'
+			});
 		}
 	}
 	useEffect(() => {
@@ -89,16 +96,19 @@ const BookDetail = ({user, setUser}) => {
 
 
 	useEffect(() => {
-		// turning rating into stars
+		// превръща рейтинга в звезди
 		let starArr = [];
 		if(!rating) {
+			// ако няма рейтинг, се показват 5 празни звезди
 			for(let i = 0;i < 5;i++) {
 				starArr.push(<FontAwesomeIcon key={i} icon={faStar} className='empty' />);
 			}
 		} else {
+			// запълнените звезди
 			for(let i = 0;i < Math.floor(rating);i ++) {
 				starArr.push(<FontAwesomeIcon key={i} icon={faStar} className='filled'/>);
 			}
+			//полузапълнени звезди
 			if(rating >= Math.floor(rating) + 0.5) {
 				starArr.push(
 					<FontAwesomeIcon 
@@ -108,6 +118,7 @@ const BookDetail = ({user, setUser}) => {
 					/>
 				)
 			}
+			// останалите звезди са празни
 			for(let i = starArr.length;i < 5;i++) {
 				starArr.push(
 					<FontAwesomeIcon 
@@ -141,9 +152,14 @@ const BookDetail = ({user, setUser}) => {
 						{
 							book?.tags?.map((tag, index) => {
 								return (
-									<div key={index} className="tag">
+									<Link 
+										to={`/search/${tag}`}
+										key={index} 
+										className="tag"
+										title={`Search for ${tag}`}
+									>
 										{tag}
-									</div>
+									</Link>
 								)
 							})
 						}

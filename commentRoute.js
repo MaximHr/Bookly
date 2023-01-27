@@ -17,9 +17,6 @@ router.post('/create', async(req, res) => {
 router.get('/byBook/:id', async(req, res) => {
     const bookId = req.params.id;
     try {
-
-        // SELECT Books.id, name, cover, title, price, file FROM Users JOIN Books ON Books.user_id = Users.id ORDER BY Books.id DESC OFFSET $1 LIMIT $2
-
         const comments = await pool.query('SELECT text, book_id, user_id, name, Comments.id FROM Users JOIN Comments ON user_id=Users.id WHERE book_id=$1', [bookId]);
 
         res.json(comments.rows);

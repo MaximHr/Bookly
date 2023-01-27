@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const Footer = () => {
   return (
     <div className='footer'>
-        <p>Copyright &copy; 2022 Bookly</p>
+        <p>Made with <FontAwesomeIcon icon={faHeart} /> by Maksim Hristov</p>
     </div>
   )
 }

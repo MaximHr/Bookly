@@ -17,8 +17,15 @@ const Upload = ({user}) => {
 	const [pdf, setPdf] = useState('');
 
 	const addTag = (tag) => {
-		setTagInput('');
-		setTags([...tags, tag]);
+		if(tags.length < 10) {
+			setTagInput('');
+			setTags([...tags, tag]);
+		} else {
+			toast.error('Не може да имате повече от 10 тага', {
+				autoClose: 2500,
+				position: 'top-center'
+			});
+		}
 	}
 	const deleteTag = (tag) => {
 		const newTags = tags.filter( el => el !== tag);
@@ -42,22 +49,33 @@ const Upload = ({user}) => {
 			}
 
 		}catch(err) {
-			console.log(err);
+			toast.error("Sorry, couldn't upload this image. Try again later", {
+				autoClose: 2500,
+				position: 'top-center'
+			});
+		}
+	}
+
+	const uploadFile = async(e) => {
+		try {		
+			let formData = new FormData();
+			formData.append('file', pdf);
+
+			let response = await fetch('http://localhost:5000/books/uploadFile', {
+				method: 'POST',
+				body: formData
+			});
+			console.log(response);
+
+		}catch(err) {
+			toast.error("Sorry, couldn't upload this file. Try again later", {
+				autoClose: 2500,
+				position: 'top-center'
+			});
 		}
 	}
 	const uploadBook = async(e) => {
 		e.preventDefault();
-
-		
-		let formData = new FormData();
-		formData.append('file', pdf);
-		let upload2 = await fetch('http://localhost:5000/books/upload2', {
-			method: 'POST',
-			body: formData
-		});
-
-		console.log(upload2)
-	
 		if(title.replaceAll(' ', '').length === 0 || description.replaceAll(' ', '').length === 0 || tags.length === 0 || pdf.name === undefined){
 			toast.error('Please fill out the forms !', {
 				autoClose: 2500,
@@ -65,14 +83,13 @@ const Upload = ({user}) => {
 			})
 		} else {
 			try {
-
+				uploadFile();
 				const response = await axios.post('http://localhost:5000/books/upload', {
 					title,
 					description,
 					price,
 					cover: image,
 					tags,
-					file: 'pdf',
 					user_id: user.id
 				});
 				if(response.status === 200) {
@@ -90,7 +107,10 @@ const Upload = ({user}) => {
 				}
 
 			}catch(err) {
-				console.log(err);
+				toast.error("Sorry, couldn't publish the books. Try again later", {
+					autoClose: 2500,
+					position: 'top-center'
+				});
 			}
 		}
 	}

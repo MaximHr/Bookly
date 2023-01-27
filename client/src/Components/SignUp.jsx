@@ -42,6 +42,8 @@ const SignUp = ({setUser}) => {
 		}catch(err) {
 			if(err.response.data === `duplicate key value violates unique constraint "users_email_key"`) {
 				setError('User with this email already exists.')
+			} else {
+				setError('Sorry, there was an error. Try again later.')
 			}
 		}
 		

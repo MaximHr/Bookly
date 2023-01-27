@@ -9,7 +9,7 @@ const CommentSection = ({book, user, comments, setComments}) => {
 	const [updateCard, setUpdateCard] = useState(false);
 	const [updateValue, setUpdateValue] = useState('');
 	
-	const updateHandler = async(id) => {
+	const updateComment = async(id) => {
 		try {
 			const response = await axios.put(`http://localhost:5000/comments/update/`, {
 				id: id,
@@ -23,15 +23,17 @@ const CommentSection = ({book, user, comments, setComments}) => {
 
 				setComments(newComments);
 
-				toast.success(response.data, {
+				toast.success('Comment Updated', {
 					autoClose: 2500,
 					position: 'top-center'
 				});
-				console.log(response)
 			}
 
 		}catch(err) {
-			console.log(err);
+			toast.error('Sorry, there was an error. try again later', {
+				autoClose: 2500,
+				position: 'top-center'
+			});
 		}
 	}
 	const deleteComment = async(id) => {
@@ -50,7 +52,10 @@ const CommentSection = ({book, user, comments, setComments}) => {
 				})
 			}
 		}catch(err) {
-			console.log(err);
+			toast.error('Sorry, there was an error. Try again later', {
+				autoClose: 2500,
+				position: 'top-center'
+			});
 		}
 	}
 	const submitComment = async() => {
@@ -72,7 +77,10 @@ const CommentSection = ({book, user, comments, setComments}) => {
 				}
 
 			}catch(err) {
-				console.log(err);
+				toast.error('Sorry, there was an error. Try again later', {
+					autoClose: 2500,
+					position: 'top-center'
+				});
 			}
 		}
 	}
@@ -102,7 +110,7 @@ const CommentSection = ({book, user, comments, setComments}) => {
 						/>
 						<button 
 							className='btn' 
-							onClick={() => updateHandler(updateCard)}>Update !
+							onClick={() => updateComment(updateCard)}>Update !
 						</button>
 					</div>
 				)
