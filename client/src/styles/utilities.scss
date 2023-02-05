@@ -37,7 +37,6 @@
     resize: none;
     height: 200px;
 }
-
 .mtb5 {
     margin: 5rem 0;
 }
@@ -99,7 +98,6 @@
     flex-wrap: wrap;
     width: 100%
 }
-
 input[type='radio'] {
     cursor: pointer;
     width: 15px;
@@ -125,9 +123,7 @@ input[type='radio'] {
         color: white;
     }
 }
-
 #root {
-    
     // scrollbar за chrome
     ::-webkit-scrollbar {
         height: 1rem;
@@ -147,12 +143,9 @@ input[type='radio'] {
         }
     }
 }
-
 li {
     list-style: none;
 }
-
-
 .dark {
     position: fixed;
     top: 0;
@@ -163,15 +156,25 @@ li {
     overflow: hidden;
     background-color: rgba($color: #000000, $alpha: 0.5);
 }
-
 .group {
     position: relative;
 }
-
 iframe {
     margin: 5rem 0;
     height: 100vh;
     border: none;
     width: 75%;
 }
+.spinner {
+    margin-right: 5px;
+    animation: rotateSpinner 1.25s linear forwards infinite;
+}
 
+@keyframes rotateSpinner {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -21,11 +21,10 @@ let fileName = uuidv4();
 const storage = multer.diskStorage({
     destination: './client/src/files',
     filename: (req, file, cb) => {
-        console.log(fileName)
         cb(null, fileName + '.pdf');
     }
 })
-const upload = multer({storage: storage});
+const upload = multer({storage: storage, limits: {fileSize: 1073741824 }});
 
 router.post('/uploadFile', upload.single('file'), async(req, res) => {
     res.send('File Uploaded')
@@ -33,10 +32,15 @@ router.post('/uploadFile', upload.single('file'), async(req, res) => {
 
 router.post('/upload', async(req, res) => {
     const {title, cover, price, description, tags, user_id} = req.body;
-    
-    try {
 
-        const newBook = await pool.query('INSERT INTO Books (title, description, price, tags, file, cover, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', [title, description, JSON.parse(price), tags, fileName, cover, user_id]);
+    try {
+        let priceNum;
+        if(price === '' || price < 0) {
+            priceNum = 0;
+        } else {
+            priceNum = JSON.parse(price);
+        }
+        const newBook = await pool.query('INSERT INTO Books (title, description, price, tags, file, cover, user_id) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *', [title, description, priceNum, tags, fileName, cover, user_id]);
 
         res.json(newBook.rows[0]);
         fileName = uuidv4();
@@ -86,7 +90,7 @@ router.get('/highestRated/:offset/:limit', async(req, res) => {
 //bookDetail страницата
 router.get('/details/:id', async(req,res) => {
     try {
-        const details = await pool.query('SELECT Books.id, age, name, school, gender, title, description, ratedBooks, price, summedRating, numberOfRatings, tags, cover FROM Users JOIN Books ON Books.user_id = Users.id WHERE file=$1', [req.params.id]);
+        const details = await pool.query('SELECT Books.id, Books.user_id, age, name, school, gender, title, description, ratedBooks, price, summedRating, stripe_account, numberOfRatings, tags, cover FROM Users JOIN Books ON Books.user_id = Users.id WHERE file=$1', [req.params.id]);
 
         res.json(details.rows[0]);
 

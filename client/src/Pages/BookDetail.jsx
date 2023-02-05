@@ -3,7 +3,7 @@ import {useLocation} from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faStarHalfStroke} from '@fortawesome/free-solid-svg-icons';
+import { faStar, faStarHalfStroke, faSpinner} from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import RateCard from '../Components/RateCard';
 import CommentSection from '../Components/CommentSection';
@@ -16,6 +16,7 @@ const BookDetail = ({user, setUser}) => {
 	const [comments, setComments] = useState([]);
 	const [rating, setRating] = useState();
 	const [stars, setStars] = useState();
+	const [loading, setLoading] = useState(false);
 	const [toggleCard, setToggleCard] = useState(false);
 
 	const getComments = async(data) => {
@@ -34,25 +35,41 @@ const BookDetail = ({user, setUser}) => {
 	}
 
 	const readAndBuyHandler = async() => {
-		let isItRead = false;
-		user.readbooks?.map((userBook) => {
-			if(userBook === book.id) {
-				isItRead = true;
-			}
-		})
-		if(book.price === '' || book.price === 0) {
-			if(!isItRead) {
+		// ако книгата е безплатна или ти си автора, може да я четеш
+		if(book.price === 0 || book.user_id === user.id || user.boughtbooks?.includes(book.id)) {
+			try {
 				const response = await axios.put('http://localhost:5000/users/addBook', {userId: user.id, bookId: book.id});
-
-				setUser(response.data)
+				
+				setUser(response.data);
 				if(response.status === 200) {
-					navigate('./read');
+					navigate('./read', { state: {...book} });
 				}
-			} else {
-				navigate('./read');
+			} catch(err) {
+				toast.error('Sorry, there was an error. Try again later', {
+					autoClose: 2500,
+					position: 'top-center'
+				});
 			}
-		} else {
-			console.log('buy this book');
+		} else if(book.price > 0) {
+			//закупуване на книгата
+			setLoading(true);
+			try {
+				const response = await axios.post('http://localhost:5000/stripe/payment', {
+					...book,
+					userId: user.id
+				});
+				if(response.status === 200) {
+					window.location.href = response.data;
+				}
+
+			}catch(err) {
+				console.log(err);
+				setLoading(false);
+				toast.error('Sorry, there was an error. Try again later', {
+					autoClose: 2500,
+					position: 'top-center'
+				});
+			}
 		}
 	}
 
@@ -71,6 +88,7 @@ const BookDetail = ({user, setUser}) => {
 			});
 		}
 	}
+
 	useEffect(() => {
 		getInfo();
 		window.scrollTo(0, 0);
@@ -93,7 +111,6 @@ const BookDetail = ({user, setUser}) => {
 			});
 		}
 	}
-
 
 	useEffect(() => {
 		// превръща рейтинга в звезди
@@ -173,10 +190,13 @@ const BookDetail = ({user, setUser}) => {
 					<p className='description'>{book.description}</p>
 					<div className="flex">
 						<p className='price'>
-							{book.price == 0 || book.price == '' ? 'Free': book.price + " BGN"}
+							{book.price === 0 ? 'Free': book.price + " BGN"}
 						</p>
 						<button className="btn" onClick={readAndBuyHandler}>
-							{book.price == 0 || book.price == '' ? 'Start reading': "Buy now"}
+							{book.price === 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id ? 'Start reading': <>
+							{ loading ? 
+								<FontAwesomeIcon icon={faSpinner} className='spinner'/> : <></>
+							} Buy now</>}
 						</button>
 					</div>
 					

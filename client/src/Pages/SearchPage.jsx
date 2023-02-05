@@ -101,7 +101,7 @@ const SearchPage = () => {
 					</div>
 				: <></>}
 				{
-					searchedByAuthor.length  == 0 && searchedByTags.length == 0 && searchedByTitle.length == 0 ? <h1 id='sorry'>Sorry, couldn't find simular books</h1> : <></>
+					searchedByAuthor.length  === 0 && searchedByTags.length === 0 && searchedByTitle.length === 0 ? <h1 id='sorry'>Sorry, couldn't find simular books</h1> : <></>
 				}
 			</div>
 	)

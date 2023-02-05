@@ -1,11 +1,26 @@
+//style за по малки екрани
+
 @media only screen and (max-width: 768px) {
     .landing, .together {
         display: flex;
         gap: 3rem;
         flex-direction: column;
+
+        p{
+            max-width: 90%;
+        }
     }
     iframe {
         width: 100%;
+    }
+    .success-page {
+        gap: 7rem;
+        h1 {
+            font-size: 3rem;
+        }
+        img {
+            max-width: 350px;
+        }
     }
     .textarea {
         width: 100%;
@@ -23,7 +38,7 @@
         }
     }
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 540px) {
     #sign1, #sign2 {
         font-size: 1rem;
         padding: 0.6rem 0.5rem;

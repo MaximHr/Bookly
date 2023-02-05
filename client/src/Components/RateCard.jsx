@@ -24,7 +24,7 @@ const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating}) => {
 				}
 
 			} else {
-				toast.error('Your rating must be between 1 and 10',
+				toast.error('Your rating must be between 1 and 5',
 				{
 					autoClose: 2500,
 					position: 'top-center'

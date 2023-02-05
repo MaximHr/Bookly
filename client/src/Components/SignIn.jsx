@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {Text} from '../Components/Translate';
 
 const SignIn = ({setUser}) => {
 	const [email, setEmail] = useState('');
@@ -75,10 +76,10 @@ const SignIn = ({setUser}) => {
 						/>
 					</div>
 					
-					<button className="btn" type='submit'>Sign In</button>
+					<button className="btn" type='submit'><Text>SignIn</Text></button>
 
 					
-					<p className={error == 'no errors' ? 'hidden error' : 'error'}>{error}</p>
+					<p className={error === 'no errors' ? 'hidden error' : 'error'}>{error}</p>
 
 				</form>
 			</div>
