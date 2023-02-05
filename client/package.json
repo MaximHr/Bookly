@@ -16,6 +16,7 @@
     "react-responsive": "^9.0.2",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
+    "react-text-translator": "^1.1.7",
     "react-toastify": "^9.0.8",
     "web-vitals": "^2.1.4"
   },

@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import logo from '../Images/logo.png';
+import DropDown from './DropDown';
 import logoLight from '../Images/logo-light.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faMoon, faSun, faCaretDown, faXmark, faL } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faCaretDown, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
+import {Text} from '../Components/Translate';
 
-const Navbar = ({user, themeToggle, setThemeToggle}) => {
+const Navbar = ({user, themeToggle, setThemeToggle, lang, setLang}) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const isTablet = useMediaQuery({
@@ -51,7 +53,9 @@ const Navbar = ({user, themeToggle, setThemeToggle}) => {
 								}
 							}}
 							className='input searchbar search-full' 
-							placeholder='Search for books, authors or tags'
+							placeholder={
+								lang === 'british' ? 'Search for books, authors or tags' : 'Търси книги, автори или тагове'
+							} // <Text> не работи за placeholder
 						/>
 						
 						<button 
@@ -89,7 +93,9 @@ const Navbar = ({user, themeToggle, setThemeToggle}) => {
 										}
 									}}
 									className='input searchbar' 
-									placeholder='Search for books, authors or tags'
+									placeholder={
+										lang === 'british' ? 'Search for books, authors or tags' : 'Търси книги, автори или тагове'
+									}
 								/>
 								<button 
 									className="btn" 
@@ -108,8 +114,8 @@ const Navbar = ({user, themeToggle, setThemeToggle}) => {
 				{
 					navType ? (
 						<>
-							<Link className='btn' id='sign1' to='/signIn'>Sign In</Link>
-							<Link className='btn' id='sign2' to='/signUp'>Sign Up</Link>
+							<Link className='btn' id='sign1' to='/signIn'><Text>SignIn</Text></Link>
+							<Link className='btn' id='sign2' to='/signUp'><Text>SignUp</Text></Link>
 						</>
 					) : (
 						<>
@@ -132,7 +138,7 @@ const Navbar = ({user, themeToggle, setThemeToggle}) => {
 								<button 
 									onClick={() => setDropDown(!dropDown)} className="btn"
 								>
-									My Profile 
+									<Text>Profile</Text>
 									<FontAwesomeIcon icon={faCaretDown}/>
 								</button>
 							</div>
@@ -144,23 +150,13 @@ const Navbar = ({user, themeToggle, setThemeToggle}) => {
 						}
 						{
 							dropDown ? (
-								<ul className='dropdown'>
-									<Link to='/upload'>Publish book</Link>
-									<Link to='/myBooks'>My Books</Link>
-									<div className='appearance'>
-										<p>Theme</p>
-										<div 
-											className="theme-container" 
-											onClick={() => setThemeToggle(!themeToggle)}
-										>
-											<FontAwesomeIcon icon={faSun}/>
-											<div 
-												className={themeToggle ? 'theme-btn transformed' : 'theme-btn'} 
-											></div>
-											<FontAwesomeIcon icon={faMoon}/>
-										</div> 
-									</div>
-								</ul>
+								<DropDown 
+									lang={lang} 
+									setDropDown={setDropDown}
+									setLang={setLang} 
+									themeToggle={themeToggle} 
+									setThemeToggle={setThemeToggle}
+								/>
 							) : (<></>)
 						}
 						</div>

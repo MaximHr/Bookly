@@ -10,6 +10,7 @@ const Home = ({user}) => {
 	const [newBooks, setNewBooks] = useState([]);
 	const [highestRatedBooks, setHighestRatedBooks] = useState([]);
 
+
 	const fetchBooks = async() => {
 		try {
 			//взима книгите, които чете потребителя
@@ -17,7 +18,6 @@ const Home = ({user}) => {
 			user.readbooks?.map(async(book) => {
 				try {
 					const getYourBook = await axios.get(`http://localhost:5000/books/${book}`);
-					
 					if(getYourBook.status === 200) {
 						readingList.push(getYourBook.data);
 					}

@@ -1,10 +1,12 @@
 Todo:
 
-- payment integration
 - documentation describing all functionalities
 - unit testing
 - deployment
 - clean code, comments
+
+
+- deny specific routes (/book/randomId)
 
 
 atspace.com

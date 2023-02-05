@@ -5,6 +5,7 @@ import Footer from './Components/Footer';
 import Navbar from './Components/Navbar';
 import SignIn from './Components/SignIn';
 import SignUp from './Components/SignUp';
+import {translator} from './Components/Translate';
 //pages
 import Landing from './Pages/Landing';
 import Home from './Pages/Home';
@@ -13,25 +14,42 @@ import Upload from './Pages/Upload';
 import SearchPage from './Pages/SearchPage';
 import ReadingPage from './Pages/ReadingPage';
 import MyBooks from './Pages/MyBooks';
-
+import Page404 from './Pages/Page404';
+import StripeAccount from './Pages/StripeAccount';
 //style
 import './styles/style.scss';
-import Page404 from './Pages/Page404';
+import CancelPage from './Pages/CancelPage';
+import SuccessPage from './Pages/SuccessPage';
 
 const App = () => {
 	const [user, setUser] = useState();
+	const [lang, setLang] = useState('bulgarian')
 	const [themeToggle, setThemeToggle] = useState(false);
 
 	useEffect(() => {
-		if(sessionStorage.getItem('user') !== null) {
+		if(sessionStorage.getItem('user') !== 'null' && sessionStorage.getItem('user') !== 'undefined') {
 			setUser(JSON.parse(sessionStorage.getItem('user')));
 		}
-		if(localStorage.getItem('theme') == 'false' || localStorage.getItem('theme') == 'true') {
-			//запаметява theme-а и за следващи влизания от клиента				
+		//взима theme-а и езика от localstorage
+		if(localStorage.getItem('theme') === 'false' || localStorage.getItem('theme') === 'true') {
 			setThemeToggle(JSON.parse(localStorage.getItem('theme')));
+		}
+		if(localStorage.getItem('langauge') === 'british') {
+			setLang('british');
+		} else {
+			setLang('bulgarian');
 		}
 	}, []);
 
+	useEffect(() => {
+		if(user != 'undefined' && user != 'null') {
+			sessionStorage.setItem('user', JSON.stringify(user));
+		}
+	}, [user]);
+
+	useEffect(() => {
+		localStorage.setItem('langauge', lang);
+	}, [lang]);
 	useEffect(() => {
 		if(themeToggle) {
 			document.documentElement.style.setProperty('--theme', 'dark');
@@ -48,14 +66,22 @@ const App = () => {
 			document.documentElement.style.setProperty('--paragraph-color', '#a47551');
 			document.documentElement.style.setProperty('--plain-color', '#fff');
 		}
+
+		//запаметява theme-а и за следващи влизания от клиента				
 		localStorage.setItem('theme', themeToggle);
 		
 	}, [themeToggle]);
 
 
 	return (
-		<div>
-			<Navbar user={user} themeToggle={themeToggle} setThemeToggle={setThemeToggle}/>  
+		<translator.TranslationProvider activeLang={lang}>
+			<Navbar 
+				user={user}
+				themeToggle={themeToggle} 
+				setThemeToggle={setThemeToggle} 
+				lang={lang} 
+				setLang={setLang}
+			/>  
 			<Routes>
 				<Route path='*' element={<Page404 />}/>
 				<Route path='/' element={<Landing />} />
@@ -74,6 +100,9 @@ const App = () => {
 					</>} 
 				/>
 
+				<Route path='/stripeAuth' element={!user ? <Landing /> : <StripeAccount user={user} setUser={setUser}/>} 
+				/>
+
 				<Route 
 					path='/home' 
 					element={!user ? <Landing /> : <Home user={user}/>} 
@@ -86,7 +115,7 @@ const App = () => {
 
 				<Route 
 					path='book/:id/read' 
-					element={!user ? <Landing /> : <ReadingPage />}
+					element={!user ? <Landing /> : <ReadingPage user={user}/>}
 				/>
 
 				<Route 
@@ -102,9 +131,17 @@ const App = () => {
 					path='myBooks'
 					element={!user ? <Landing /> : <MyBooks user={user}/>}
 				/>
+				<Route 
+					path='cancel'
+					element={!user ? <Landing /> : <CancelPage />}
+				/>
+				<Route 
+					path='success'
+					element={!user ? <Landing /> : <SuccessPage user={user} setUser={setUser}/>}
+				/>
 			</Routes>
 			<Footer />
-		</div>
+		</translator.TranslationProvider>
 	)
 }
 

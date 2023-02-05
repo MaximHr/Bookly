@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useState, useEffect } from 'react';
 import Card from '../Components/Card';
 import img from '../Images/cover2.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +15,25 @@ const Upload = ({user}) => {
 	const [tagInput, setTagInput] = useState('');
 	const [tags, setTags] = useState([]);
 	const [pdf, setPdf] = useState('');
+	const [canSell, setCanSell] = useState(false);
+
+	const getStripeAccount = async(req, res) => {
+		try {
+			if(user.stripe_account) {
+				const response = await axios.get(`http://localhost:5000/stripe/account/${user.stripe_account}`);
+
+				if(response.status === 200) {
+					setCanSell(response.data.details_submitted);
+				}
+			}
+		}catch(err) {
+			console.log(err);
+		}
+	}
+
+	useEffect(() => {
+		getStripeAccount();
+	}, []);
 
 	const addTag = (tag) => {
 		if(tags.length < 10) {
@@ -61,11 +80,10 @@ const Upload = ({user}) => {
 			let formData = new FormData();
 			formData.append('file', pdf);
 
-			let response = await fetch('http://localhost:5000/books/uploadFile', {
+			await fetch('http://localhost:5000/books/uploadFile', {
 				method: 'POST',
 				body: formData
 			});
-			console.log(response);
 
 		}catch(err) {
 			toast.error("Sorry, couldn't upload this file. Try again later", {
@@ -81,6 +99,16 @@ const Upload = ({user}) => {
 				autoClose: 2500,
 				position: 'top-center'
 			})
+		} else if(price < 0) {
+			toast.error('The price can not be a negative number', {
+				autoClose: 2500,
+				position: 'top-center'
+			})
+		} else if(price !== 0 && price !== '' && canSell === false) {
+			toast.error('You can publish your books for free but you can not sell them because you do not have a verified stripe account.', {
+				autoClose: 4500,
+				position: 'top-center'
+			});
 		} else {
 			try {
 				uploadFile();
@@ -107,6 +135,7 @@ const Upload = ({user}) => {
 				}
 
 			}catch(err) {
+				console.log(err);
 				toast.error("Sorry, couldn't publish the books. Try again later", {
 					autoClose: 2500,
 					position: 'top-center'
@@ -132,13 +161,14 @@ const Upload = ({user}) => {
 						/>
 					</div>
 					<div className='dflex'>
-						<label>Price: </label>
+						<label>Price (in bgn leva): </label>
 						<input 
 							type="number" 
+							placeholder="Price"
 							className='input' 
 							value={price}
 							onChange={(e) => setPrice(e.target.value)}
-							min='0' 
+							min={0} 
 						/>
 					</div>
 					<div className='dflex'>

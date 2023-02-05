@@ -10,7 +10,9 @@ CREATE TABLE Users(
     age INT NOT NULL,
     school VARCHAR(255) NOT NULL,
     ratedBooks INT[], 
-    readBooks INT[] --масив с id-то на прочетените книги
+    stripe_account VARCHAR(255) DEFAULT '',
+    readBooks INT[], --масив с id-то на прочетените книги
+    boughtBooks INT[] --масив с id-то на закупените книги
 );
 
 CREATE TABLE Books(
@@ -34,7 +36,7 @@ CREATE TABLE Comments(
     text text NOT NULL,
     user_id INT NOT NULL, -- човекът, който пише коментара
     FOREIGN KEY (user_id) REFERENCES Users(id),
-    book_id INT NOT NULL, --книгата, на която е написан коментарът
+    book_id INT NOT NULL, --книгата, за която е написан коментарът
     FOREIGN KEY (book_id) REFERENCES Books(id)
 );
 

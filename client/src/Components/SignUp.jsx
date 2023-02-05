@@ -20,6 +20,7 @@ const SignUp = ({setUser}) => {
 	useEffect(() => {
 		setIsScaled(true);
 	}, []); 
+	
 
 	const submitHandler = async(e) => {
 		e.preventDefault();
@@ -31,7 +32,7 @@ const SignUp = ({setUser}) => {
 				if(response.status === 200) {
 					setUser(response.data);
 					sessionStorage.setItem('user', JSON.stringify(response.data));
-					navigate('/home');
+					navigate('/stripeAuth');
 				}
 	
 			} else if(password.length <= 5) {
@@ -40,6 +41,7 @@ const SignUp = ({setUser}) => {
 				setError('Please fill out the forms.');
 			}
 		}catch(err) {
+			console.log(err);
 			if(err.response.data === `duplicate key value violates unique constraint "users_email_key"`) {
 				setError('User with this email already exists.')
 			} else {
@@ -53,6 +55,7 @@ const SignUp = ({setUser}) => {
 			navigate('/')
 		}
 	}
+
 
 	return (
 		<div className="dark"  onMouseDown={(e) => closeHandler(e)}>

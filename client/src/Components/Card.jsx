@@ -12,7 +12,7 @@ const Card = (props) => {
 			<div>
 				<div className='flex'>	
 					<h3>{props.title}</h3>
-					<p className='price'>{props.price == 0 || props.price == '' ? 'Free': props.price + " BGN"}</p>
+					<p className='price'>{props.price === 0 || props.price === '' ? 'Free': props.price + " BGN"}</p>
 				</div>
 				<div className='flex'>	
 					<div>

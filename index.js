@@ -7,13 +7,14 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(express.static('./client'))
+app.use(express.static('./client'));
 
 
 //routes
 app.use('/users', require('./userRoute'));
 app.use('/books', require('./bookRoute'));
 app.use('/comments', require('./commentRoute'));
+app.use('/stripe', require('./stripeRoute'));
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`)
