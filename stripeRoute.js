@@ -11,6 +11,7 @@ router.get('/account/:id', async(req, res) => {
         const account = await stripe.accounts.retrieve(req.params.id);
         res.send(account);
 
+
     }catch(err) {
         res.status(500).send(err.message);
     }
@@ -19,6 +20,7 @@ router.get('/account/:id', async(req, res) => {
 //плащане на книга
 router.post('/payment', async(req, res) => {
     const {stripe_account, price, title, cover, id, userId} = req.body;
+    console.log(stripe_account)
     try {
         let product;
         if(cover.length < 2048) {
@@ -46,7 +48,7 @@ router.post('/payment', async(req, res) => {
             mode: 'payment',
             line_items: [{price: bookPrice.id, quantity: 1}],
             payment_intent_data: {
-              application_fee_amount: (price * 100) * 0.07, //7 процента от цената на книгата отиват за bookly
+              application_fee_amount: Math.floor((price * 100) * 0.07), //7 процента от цената на книгата отиват за bookly
               transfer_data: {destination: stripe_account},
             },
             metadata: {
@@ -56,6 +58,7 @@ router.post('/payment', async(req, res) => {
             success_url: `${origin}/success`,
             cancel_url: `${origin}/cancel`,
         });
+        console.log(session)
 
         res.send(session.url);
 
@@ -106,20 +109,20 @@ router.post("/account", async (req, res) => {
 //слуша за платена книга
 router.post('/webhooks', express.raw({type: 'application/json'}), async(request, res) => {
     let event = request.body;
-    // if (endpointSecret) {
-    //     //проверява дали заявката идва от stripe
-    //     const signature = request.headers['stripe-signature'];
-    //     try {
-    //         event = stripe.webhooks.constructEvent(
-    //             request.body,
-    //             signature,
-    //             endpointSecret
-    //         );
-    //     } catch (err) {
-    //         console.log(`⚠️  Webhook signature verification failed.`, err.message);
-    //         return response.sendStatus(400);
-    //     }
-    // }
+    if (endpointSecret) {
+        //проверява дали заявката идва от Stripe
+        const signature = request.headers['stripe-signature'];
+        try {
+            event = stripe.webhooks.constructEvent(
+                request.body,
+                signature,
+                endpointSecret
+            );
+        } catch (err) {
+            console.log(`⚠️  Webhook signature verification failed.`, err.message);
+            return res.sendStatus(400);
+        }
+    }
     if(event.type === 'checkout.session.completed') {
         if(event.data.object.status === 'complete') {
             //добавя купената книга на клиента
@@ -138,7 +141,5 @@ router.post('/webhooks', express.raw({type: 'application/json'}), async(request,
     }
    
 });
-// добавя книгата, след като е купена
-
 
 module.exports = router;

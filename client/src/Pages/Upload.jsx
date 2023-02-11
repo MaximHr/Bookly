@@ -2,10 +2,11 @@ import React, {useState, useEffect } from 'react';
 import Card from '../Components/Card';
 import img from '../Images/cover2.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {Text} from '../Components/Translate';
 
 const Upload = ({user}) => {
 	const [title, setTitle] = useState('');
@@ -14,6 +15,7 @@ const Upload = ({user}) => {
 	const [description, setDescription] = useState('');
 	const [tagInput, setTagInput] = useState('');
 	const [tags, setTags] = useState([]);
+	const [agree, setAgree] = useState(false);
 	const [pdf, setPdf] = useState('');
 	const [canSell, setCanSell] = useState(false);
 
@@ -104,9 +106,20 @@ const Upload = ({user}) => {
 				autoClose: 2500,
 				position: 'top-center'
 			})
-		} else if(price !== 0 && price !== '' && canSell === false) {
+		} else if(price != 0 && price !== '' && canSell === false) {
+			console.log(price);
 			toast.error('You can publish your books for free but you can not sell them because you do not have a verified stripe account.', {
 				autoClose: 4500,
+				position: 'top-center'
+			});
+		} else if (title.length > 255) {
+			toast.error('The title is too long.', {
+				autoClose: 2500,
+				position: 'top-center'
+			})
+		} else if(!agree) {
+			toast.error('You must agree that you are the author.', {
+				autoClose: 2500,
 				position: 'top-center'
 			});
 		} else {
@@ -147,11 +160,11 @@ const Upload = ({user}) => {
 	return (
 		<div className='uploadPage'>
 			<ToastContainer  />
-			<h1 className="title">Upload Your Book!</h1>
+			<h1 className="title"><Text>Upload</Text></h1>
 			<div className='together'>
 				<div className="left">
 					<div className='dflex'>
-						<label>Title: </label>
+						<label><Text>Title</Text>: </label>
 						<input 
 							type="text" 
 							className="input" 
@@ -161,7 +174,7 @@ const Upload = ({user}) => {
 						/>
 					</div>
 					<div className='dflex'>
-						<label>Price (in bgn leva): </label>
+						<label><Text>Price</Text>: </label>
 						<input 
 							type="number" 
 							placeholder="Price"
@@ -172,7 +185,7 @@ const Upload = ({user}) => {
 						/>
 					</div>
 					<div className='dflex'>
-						<label>Image: </label>
+						<label><Text>Cover</Text>: </label>
 						<div>	
 							<input 
 								type="file" 
@@ -183,7 +196,7 @@ const Upload = ({user}) => {
 						</div>
 					</div>
 					<div className="dflex">
-						<label>Description: </label>
+						<label><Text>Desc</Text>: </label>
 						<textarea 
 							className='textarea' 	placeholder="Description"
 							value={description}
@@ -192,7 +205,7 @@ const Upload = ({user}) => {
 						</textarea>
 					</div>
 					<div className="dflex">
-						<label>Add tags to help readers find your content.</label>
+						<label><Text>TagMore</Text></label>
 						<div className="flex">
 							<input 
 								type="text" 
@@ -211,7 +224,7 @@ const Upload = ({user}) => {
 							/>
 							<button 
 								className="btn" 
-								onClick={() => addTag(tagInput)}>Add
+								onClick={() => addTag(tagInput)}><Text>Add</Text>
 							</button>
 						</div>
 						<div className="tags">
@@ -228,7 +241,7 @@ const Upload = ({user}) => {
 						</div>
 					</div>
 					<div className="dflex">
-						<label>Upload your book in pdf format.</label>
+						<label><Text>UploadMore</Text></label>
 						<input 
 							type="file" 
 							accept='application/pdf' 
@@ -238,7 +251,13 @@ const Upload = ({user}) => {
 							}}
 						/>
 					</div>
-					
+					<div className='agree-container'>
+						<button className={agree ? 'agree agree-accepted' : 'agree'} onClick={() => setAgree(!agree)}>
+							{agree ? 
+							<FontAwesomeIcon icon={faCheck} /> : <></>}
+						</button> 
+						<p><Text>Agreement</Text></p>
+					</div>
 				</div>
 				<div className="right">
 					<Card 
@@ -251,7 +270,7 @@ const Upload = ({user}) => {
 				</div>
 			</div>
 			<div className='mtb5'>
-				<button onClick={uploadBook} className="btn green publish" >Publish</button>
+				<button onClick={uploadBook} className="btn green publish" ><Text>Publish</Text></button>
 			</div>
 		</div>
 	)

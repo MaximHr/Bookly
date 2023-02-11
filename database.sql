@@ -5,11 +5,11 @@ CREATE TABLE Users(
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     email VARCHAR(255) UNIQUE NOT NULL,
-    password text NOT NULL,
+    password VARCHAR(255) NOT NULL,
     gender VARCHAR(10) NOT NULL,
     age INT NOT NULL,
-    school VARCHAR(255) NOT NULL,
-    ratedBooks INT[], 
+    bio VARCHAR(500) NOT NULL,
+    ratedBooks INT[],--масив с id-то на оценените книги 
     stripe_account VARCHAR(255) DEFAULT '',
     readBooks INT[], --масив с id-то на прочетените книги
     boughtBooks INT[] --масив с id-то на закупените книги
@@ -20,7 +20,7 @@ CREATE TABLE Books(
     title VARCHAR(255) NOT NULL,
     description text NOT NULL,
     views INT DEFAULT 0,
-    price INT DEFAULT 0,
+    price DECIMAL DEFAULT 0,
     tags VARCHAR(255)[],
     file text UNIQUE NOT NULL, -- път към pdf файла
     cover text NOT NULL, -- линк към вече качената снимка в imgur

@@ -5,14 +5,14 @@ const bcrypt = require('bcrypt');
 //създаване на user
 router.post('/register', async(req, res) => {
     try {
-        const {email, name, password, age, school, gender} = req.body;
+        const {email, name, password, age, bio, gender} = req.body;
         if(password.length > 5 && email && name) {
 
             //криптира паролата
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
             
-            const  newUser = await pool.query('INSERT INTO Users (name, password, email, age, school, gender) VALUES($1, $2, $3, $4, $5, $6) RETURNING *', [name, hashedPassword, email, age, school, gender]);
+            const  newUser = await pool.query('INSERT INTO Users (name, password, email, age, bio, gender) VALUES($1, $2, $3, $4, $5, $6) RETURNING *', [name, hashedPassword, email, age, bio, gender]);
 
             delete newUser.rows[0].password;
             return res.json(newUser.rows[0]);
@@ -78,6 +78,7 @@ router.put('/addBook', async(req, res) => {
             //добавя книгата
             const updatedUser = await pool.query('UPDATE Users SET readBooks=array_append(readBooks, $1) WHERE id=$2 RETURNING *', [bookId, userId]);
 
+            // +1 потребител чете тази книга
             await pool.query('UPDATE Books SET views=views+1 WHERE id=$1', [bookId]);
 
             return res.json(updatedUser.rows[0]);

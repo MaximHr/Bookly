@@ -22,7 +22,8 @@
     transition: outline 0.25s ease-in-out;
     border: 1px solid var(--title-color);
     height: 40px;
-    width: 210px;
+    width: 100%;
+    max-width: 290px;
     padding-left: 10px;
     font-size: 1rem;
 
@@ -158,6 +159,33 @@ li {
 }
 .group {
     position: relative;
+}
+.agree-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    p {
+        font-size: 1.1rem;
+        color: var(--title-color);
+    }
+    .agree {
+        min-width: 30px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 1.15rem;
+        height: 30px;
+        transition: all 0.25s ease-in;
+        background-color: var(--background-color);
+        border: 1px solid var(--title-color);
+        &-accepted {
+            color: white;
+            background-color: #248000;
+        }
+    }
 }
 iframe {
     margin: 5rem 0;

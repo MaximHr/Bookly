@@ -3,11 +3,11 @@ import {Route, Routes} from 'react-router-dom';
 //components
 import Footer from './Components/Footer';
 import Navbar from './Components/Navbar';
-import SignIn from './Components/SignIn';
-import SignUp from './Components/SignUp';
 import {translator} from './Components/Translate';
 //pages
 import Landing from './Pages/Landing';
+import SignIn from './Pages/SignIn';
+import SignUp from './Pages/SignUp';
 import Home from './Pages/Home';
 import BookDetail from './Pages/BookDetail';
 import Upload from './Pages/Upload';
@@ -16,10 +16,10 @@ import ReadingPage from './Pages/ReadingPage';
 import MyBooks from './Pages/MyBooks';
 import Page404 from './Pages/Page404';
 import StripeAccount from './Pages/StripeAccount';
-//style
-import './styles/style.scss';
 import CancelPage from './Pages/CancelPage';
 import SuccessPage from './Pages/SuccessPage';
+//style
+import './styles/style.scss';
 
 const App = () => {
 	const [user, setUser] = useState();
@@ -89,14 +89,14 @@ const App = () => {
 				<Route path='/signIn' element={
 					<>
 						<Landing />
-						<SignIn setUser={setUser}/>
+						<SignIn setUser={setUser} lang={lang}/>
 					</>} 
 				/>
 
 				<Route path='/signUp' element={
 					<>
 						<Landing />
-						<SignUp setUser={setUser}/>
+						<SignUp setUser={setUser} lang={lang}/>
 					</>} 
 				/>
 

@@ -1,11 +1,12 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import {Text} from '../Components/Translate';
 
 const Footer = () => {
   return (
     <div className='footer'>
-        <p>Made with <FontAwesomeIcon icon={faHeart} /> by Maksim Hristov</p>
+        <p><Text>Made</Text> <FontAwesomeIcon icon={faHeart} /><Text>Maksim</Text></p>
     </div>
   )
 }

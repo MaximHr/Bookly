@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faStar } from '@fortawesome/free-solid-svg-icons';
+import {Text} from '../Components/Translate';
 
 // компонент, който показва основните характеристики(име, снимка, цена, оценка) на книгата и води до BookDetail страницата.
 
@@ -12,7 +13,7 @@ const Card = (props) => {
 			<div>
 				<div className='flex'>	
 					<h3>{props.title}</h3>
-					<p className='price'>{props.price === 0 || props.price === '' ? 'Free': props.price + " BGN"}</p>
+					<p className='price'>{props.price == 0 ? "Free" : props.price + " BGN"}</p>
 				</div>
 				<div className='flex'>	
 					<div>
@@ -32,7 +33,7 @@ const Card = (props) => {
 							<></>
 						}
 					</div>
-					<Link className="btn" to={`/book/${props.id}`}>Read
+					<Link className="btn" to={`/book/${props.id}`}><Text>Read</Text>
 					</Link>
 				</div>
 			</div>

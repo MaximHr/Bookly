@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Card from '../Components/Card';
 import { ToastContainer, toast } from 'react-toastify';
+import {Text} from '../Components/Translate';
 
 const SearchPage = () => {
 	const location = useLocation();
@@ -34,7 +35,7 @@ const SearchPage = () => {
 				<ToastContainer />
 				{ searchedByTitle.length > 0 ? 
 					<div className="row">
-						<h2>Books with the same title</h2>
+						<h2><Text>BooksTitle</Text></h2>
 						<div className="scroll">
 						{
 							searchedByTitle?.map(book => {
@@ -57,7 +58,7 @@ const SearchPage = () => {
 
 				{ searchedByAuthor.length > 0 ? 
 					<div className="row">
-						<h2>Books by this author</h2>
+						<h2><Text>BooksAuthor</Text></h2>
 						<div className="scroll">
 						{
 							searchedByAuthor?.map(book => {
@@ -80,7 +81,7 @@ const SearchPage = () => {
 				
 				{ searchedByTags.length > 0 ? 
 					<div className="row">	
-						<h2>Books with the same tags</h2>
+						<h2><Text>BooksTags</Text></h2>
 						<div className="scroll">
 						{
 							searchedByTags?.map(book => {
@@ -101,7 +102,7 @@ const SearchPage = () => {
 					</div>
 				: <></>}
 				{
-					searchedByAuthor.length  === 0 && searchedByTags.length === 0 && searchedByTitle.length === 0 ? <h1 id='sorry'>Sorry, couldn't find simular books</h1> : <></>
+					searchedByAuthor.length  === 0 && searchedByTags.length === 0 && searchedByTitle.length === 0 ? <h1 id='sorry'><Text>NoBooks</Text></h1> : <></>
 				}
 			</div>
 	)

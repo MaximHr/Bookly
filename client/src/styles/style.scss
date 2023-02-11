@@ -13,6 +13,7 @@
     padding: 0;
     box-sizing: border-box;
     transition: color 0.25s ease-in, background-color 0.25s ease-in;
+    font-family: 'Roboto', sans-serif;
 }
 html, body {
     font-family: 'Roboto', sans-serif;
@@ -155,7 +156,6 @@ html, body {
     background-color: var(--plain-color);
     padding: 2.5rem 4.5rem;
     border-radius: 10px;
-
     h1 {
         text-align: center;
         color: var(--title-color);
@@ -198,6 +198,7 @@ html, body {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            width: 100%;
             
             label {
                 margin-top: 1rem;
@@ -228,9 +229,6 @@ html, body {
     i,svg {
         color: rgb(255, 153, 0);
     }
-    .price {
-        color: #248000  !important;
-    }
     overflow: hidden;
     min-width: 225px;
     position: relative;
@@ -252,7 +250,17 @@ html, body {
     h3, .price {
         margin-bottom: 1rem;
         font-size: 1.25rem;
+        max-width: 150px;
+        word-wrap: break-word;
         color: var(--title-color);
+    }
+    .price {
+        text-align: center;
+        color: #248000;
+    }
+    .author {
+        word-wrap: break-word;
+        max-width: 100px;
     }
     .author, .rating, .views {
         font-size: 1rem;
@@ -630,6 +638,8 @@ html, body {
         li {
             color: var(--title-color);
             font-size: 1.1rem;
+            max-width: 300px;
+            line-height: 150%;
             margin: 0.5rem 0;
         }
     }

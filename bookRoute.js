@@ -1,6 +1,5 @@
 const pool = require('./db');
 const router = require('express').Router();
-const fs = require('fs');
 const multer = require('multer');
 const {v4: uuidv4} = require('uuid');
 
@@ -13,10 +12,9 @@ router.get('/:id', async(req, res) => {
     }catch(err) {
         res.status(500).send(err.message);
     }
-})
+});
 
-
-// качва книгата
+// качва pdf книгата
 let fileName = uuidv4();
 const storage = multer.diskStorage({
     destination: './client/src/files',
@@ -30,6 +28,7 @@ router.post('/uploadFile', upload.single('file'), async(req, res) => {
     res.send('File Uploaded')
 });
 
+// качва цялата книга 
 router.post('/upload', async(req, res) => {
     const {title, cover, price, description, tags, user_id} = req.body;
 
@@ -90,7 +89,7 @@ router.get('/highestRated/:offset/:limit', async(req, res) => {
 //bookDetail страницата
 router.get('/details/:id', async(req,res) => {
     try {
-        const details = await pool.query('SELECT Books.id, Books.user_id, age, name, school, gender, title, description, ratedBooks, price, summedRating, stripe_account, numberOfRatings, tags, cover FROM Users JOIN Books ON Books.user_id = Users.id WHERE file=$1', [req.params.id]);
+        const details = await pool.query('SELECT Books.id, Books.user_id, age, name, bio, gender, title, description, ratedBooks, price, summedRating, stripe_account, numberOfRatings, tags, cover FROM Users JOIN Books ON Books.user_id = Users.id WHERE file=$1', [req.params.id]);
 
         res.json(details.rows[0]);
 
@@ -124,7 +123,7 @@ router.get('/search/:text', async(req, res) => {
         // всички книги с подобен автор
         const searchAuthor = await pool.query('SELECT Books.id, name, cover, title, summedRating, numberOfRatings, price, file FROM Users JOIN Books ON Books.user_id = Users.id WHERE similarity(LOWER(name), LOWER($1)) > 0.4', [text]);
 
-        // всички книги с подобен таг
+        // всички книги с подобна ключова дума
         const searchTags = await pool.query('SELECT * FROM Books WHERE $1 ILIKE ANY(tags)', [text]);
 
 

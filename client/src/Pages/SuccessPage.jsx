@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import successImage from '../Images/success.svg';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import {Text} from '../Components/Translate';
+
 
 const SuccessPage = ({setUser, user}) => {
     const getUser = async() => {
@@ -21,9 +23,9 @@ const SuccessPage = ({setUser, user}) => {
     return (
         <div className='success-page'>
             <div>
-                <h1>Payment successfull</h1>
-                <p>Thank you for your purchase !</p>
-                <Link to='/home' className="btn">Go back to home</Link>
+                <h1><Text>Success</Text></h1>
+                <p><Text>ThankYou</Text></p>
+                <Link to='/home' className="btn"><Text>GoHome</Text></Link>
             </div>
             <img src={successImage} alt="Approved purchase" />
         </div>

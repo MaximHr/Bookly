@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
+import {Text} from '../Components/Translate';
 
 const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating}) => {
 	const [yourRating, setYourRating] = useState();
@@ -50,8 +51,8 @@ const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating}) => {
 					}} 
 				/>
 				<div>
-					<h1>Rate {book.title}</h1>
-					<p>(from 1 to 5)</p>
+					<h1><Text>Rate2</Text> {book.title}</h1>
+					<p>(<Text>FromTо</Text>)</p>
 				</div>
 				<input 
 					type="number" 
@@ -61,7 +62,7 @@ const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating}) => {
 					value={yourRating}
 					onChange={(e) => setYourRating(e.target.value)}
 				/>
-				<button className="btn" onClick={addRating}>Submit</button>
+				<button className="btn" onClick={addRating}><Text>Submit</Text></button>
 			</div>
 		</>
   	)

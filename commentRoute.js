@@ -26,19 +26,6 @@ router.get('/byBook/:id', async(req, res) => {
     }
 });
 
-router.get('/byUser/:id', async(req, res) => {
-    const userId = req.params.id;
-    try {
-        const comments = await pool.query('SELECT * FROM Comments Where user_id=$1', [userId]);
-
-        res.json(comments.rows);
-
-    }catch(err) {
-        res.status(500).send(err.message);
-    }
-});
-
-
 router.delete('/delete/:id', async(req, res) => {
     const commentId = req.params.id;
     try {
@@ -50,7 +37,6 @@ router.delete('/delete/:id', async(req, res) => {
         res.status(500).send(err.message);
     }
 });
-
 
 router.put('/update/', async(req, res) => {
     const {id, text} = req.body;

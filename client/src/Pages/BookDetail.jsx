@@ -7,6 +7,8 @@ import { faStar, faStarHalfStroke, faSpinner} from '@fortawesome/free-solid-svg-
 import { ToastContainer, toast } from 'react-toastify';
 import RateCard from '../Components/RateCard';
 import CommentSection from '../Components/CommentSection';
+import {Text} from '../Components/Translate';
+import Page404 from './Page404';
 
 // компонент, показващ страницата с повече информация за книгата
 const BookDetail = ({user, setUser}) => {
@@ -18,6 +20,7 @@ const BookDetail = ({user, setUser}) => {
 	const [stars, setStars] = useState();
 	const [loading, setLoading] = useState(false);
 	const [toggleCard, setToggleCard] = useState(false);
+	const [pageExists, setPageExists] = useState(true);
 
 	const getComments = async(data) => {
 		try {	
@@ -54,6 +57,7 @@ const BookDetail = ({user, setUser}) => {
 			//закупуване на книгата
 			setLoading(true);
 			try {
+				console.log(user);
 				const response = await axios.post('http://localhost:5000/stripe/payment', {
 					...book,
 					userId: user.id
@@ -63,7 +67,6 @@ const BookDetail = ({user, setUser}) => {
 				}
 
 			}catch(err) {
-				console.log(err);
 				setLoading(false);
 				toast.error('Sorry, there was an error. Try again later', {
 					autoClose: 2500,
@@ -77,9 +80,14 @@ const BookDetail = ({user, setUser}) => {
 		try {
 			const response = await axios.get(`http://localhost:5000/books/details/${location.pathname.replace('/book/', '')}`);
 			if(response.status === 200) {
-				setBook(response.data);				
-				setRating(response.data.summedrating / response.data.numberofratings);
-				getComments(response.data);
+				if(response.data) {
+					setBook(response.data);				
+					setRating(response.data.summedrating / response.data.numberofratings);
+					getComments(response.data);
+				} else {
+					setPageExists(false);
+				}
+
 			}
 		}catch(err) {
 			toast.error('Sorry, there was an error. Try again later', {
@@ -150,75 +158,81 @@ const BookDetail = ({user, setUser}) => {
 		setStars(starArr);
 	}, [rating]);
 	return (
-		<div className='detailsPage'>
-			<ToastContainer />
-			<div className='details'>
-				<div className="left">
-					<img src={book.cover} alt={book.title} />
-					<p>About the author:</p>
-					<ul>
-						<li>Name: <i>{book.name}</i></li>
-						<li>Age: <i>{book.age}</i></li>
-						<li>School: <i>{book.school}</i></li>
-						<li>Gender: <i>{book.gender}</i></li>
-					</ul>
-				</div>
-				<div className="right">
-					<h1 className="title">{book.title}</h1>
-					<div className="tags">
+		<>
+		{
+		pageExists ? (
+			<div className='detailsPage'>
+				<ToastContainer />
+				<div className='details'>
+					<div className="left">
+						<img src={book.cover} alt={book.title} />
+						<p><Text>About</Text>:</p>
+						<ul>
+							<li><Text>Name</Text>: <i>{book.name}</i></li>
+							<li><Text>Age</Text>: <i>{book.age}</i></li>
+							<li><Text>Bio</Text>: <i>{book.bio}</i></li>
+							<li><Text>Gender</Text>: <i>{book.gender}</i></li>
+						</ul>
+					</div>
+					<div className="right">
+						<h1 className="title">{book.title}</h1>
+						<div className="tags">
+							{
+								book?.tags?.map((tag, index) => {
+									return (
+										<Link 
+											to={`/search/${tag}`}
+											key={index} 
+											className="tag"
+											title={`Search for ${tag}`}
+										>
+											{tag}
+										</Link>
+									)
+								})
+							}
+						</div>
+						<div className="stars" title={Math.floor(rating * 100) / 100 || 'No ratings'}>
 						{
-							book?.tags?.map((tag, index) => {
-								return (
-									<Link 
-										to={`/search/${tag}`}
-										key={index} 
-										className="tag"
-										title={`Search for ${tag}`}
-									>
-										{tag}
-									</Link>
-								)
-							})
+							stars
 						}
+						<h2 className='rate-btn' onClick={rateHandler}><Text>Rate</Text></h2>
+						</div>
+						<p className='description'>{book.description}</p>
+						<div className="flex">
+							<p className='price'>
+								{book.price === 0 ? <Text>Free</Text>: book.price + " BGN"}
+							</p>
+							<button className="btn" onClick={readAndBuyHandler}>
+								{book.price === 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id ? <Text>StartReading</Text>: <>
+								{ loading ? 
+									<FontAwesomeIcon icon={faSpinner} className='spinner'/> : <></>
+								} <Text>Buy</Text></>}
+							</button>
+						</div>
+						
 					</div>
-					<div className="stars" title={Math.floor(rating * 100) / 100 || 'No ratings'}>
-					{
-						stars
-					}
-					<h2 className='rate-btn' onClick={rateHandler}>Rate</h2>
-					</div>
-					<p className='description'>{book.description}</p>
-					<div className="flex">
-						<p className='price'>
-							{book.price === 0 ? 'Free': book.price + " BGN"}
-						</p>
-						<button className="btn" onClick={readAndBuyHandler}>
-							{book.price === 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id ? 'Start reading': <>
-							{ loading ? 
-								<FontAwesomeIcon icon={faSpinner} className='spinner'/> : <></>
-							} Buy now</>}
-						</button>
-					</div>
-					
 				</div>
-			</div>
-			{
-				toggleCard ? <RateCard 
-					user={user} 
+				{
+					toggleCard ? <RateCard 
+						user={user} 
+						book={book} 
+						setUser={setUser}
+						setBook={setBook}
+						setRating={setRating}
+						setToggleCard={setToggleCard} 
+					/> : <></>
+				}
+				<CommentSection 
 					book={book} 
-					setUser={setUser}
-					setBook={setBook}
-					setRating={setRating}
-					setToggleCard={setToggleCard} 
-				/> : <></>
-			}
-			<CommentSection 
-				book={book} 
-				user={user} 
-				comments={comments} 
-				setComments={setComments}
-			/>
-		</div>
+					user={user} 
+					comments={comments} 
+					setComments={setComments}
+				/>
+			</div>
+		) : (<Page404 />) 
+		}
+		</>
 	)
 }
 

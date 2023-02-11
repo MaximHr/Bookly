@@ -3,6 +3,8 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
+import {Text} from '../Components/Translate';
+
 
 const CommentSection = ({book, user, comments, setComments}) => {
 	const [input, setInput] = useState('');
@@ -115,7 +117,7 @@ const CommentSection = ({book, user, comments, setComments}) => {
 					</div>
 				)
 			}
-			<h2>Comments: </h2>
+			<h2><Text>Comments</Text>: </h2>
 			<div className='send-comment'>
 				<input 
 					type="text" 
@@ -129,7 +131,7 @@ const CommentSection = ({book, user, comments, setComments}) => {
 					}}
 					onChange={(e) => setInput(e.target.value)}
 				/>
-				<button className="btn" onClick={submitComment}>Send</button>
+				<button className="btn" onClick={submitComment}><Text>Send</Text></button>
 			</div>
 			<div>
 			{

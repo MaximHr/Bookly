@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import Card from '../Components/Card';
 import { ToastContainer, toast } from 'react-toastify';
+import {Text} from '../Components/Translate';
+
 
 //страницата с книгите за клиентът
 const Home = ({user}) => {
@@ -9,7 +11,6 @@ const Home = ({user}) => {
 	const [popularBooks, setPopularBooks] = useState([]);
 	const [newBooks, setNewBooks] = useState([]);
 	const [highestRatedBooks, setHighestRatedBooks] = useState([]);
-
 
 	const fetchBooks = async() => {
 		try {
@@ -83,28 +84,31 @@ const Home = ({user}) => {
 	return (
 		<div className='home'>
 			<ToastContainer />
-			<div className="row"> 
-				<h2>Your reading list</h2>
-				<div className='scroll'>
-				{
-					yourBooks.map(book => {
-						return(	
-							<Card 
-								key={book.id}
-								id={book.file}
-								img={book.cover}
-								title={book.title}
-								price={book.price}
-								author={book.name}
-								rating={Math.floor((book.summedrating / book.numberofratings) * 100) / 100}
-							/>
-						)
-					})
-				}
-				</div>
-			</div>
+			{
+				yourBooks.length > 0 ? 
+				<div className="row"> 
+					<h2><Text>List</Text></h2>
+					<div className='scroll'>
+					{
+						yourBooks.map(book => {
+							return(	
+								<Card 
+									key={book.id}
+									id={book.file}
+									img={book.cover}
+									title={book.title}
+									price={book.price}
+									author={book.name}
+									rating={Math.floor((book.summedrating / book.numberofratings) * 100) / 100}
+								/>
+							)
+						})
+					}
+					</div>
+				</div> : <></>
+			}		
 			<div className="row">
-				<h2>Popular books</h2>
+				<h2><Text>Popular</Text></h2>
 				<div className='scroll'>
 				{
 					popularBooks.map(book => {
@@ -124,7 +128,7 @@ const Home = ({user}) => {
 				</div>
 			</div>
 			<div className="row">
-				<h2>Highest rated books</h2>
+				<h2><Text>HighestRated</Text></h2>
 				<div className='scroll'>
 				{
 					highestRatedBooks.map(book => {
@@ -144,7 +148,7 @@ const Home = ({user}) => {
 				</div>
 			</div>
 			<div className="row">
-				<h2>New realeses</h2>
+				<h2><Text>New</Text></h2>
 				<div className='scroll' >	
 				{
 					newBooks.map(book => {

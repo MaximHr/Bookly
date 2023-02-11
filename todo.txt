@@ -1,12 +1,5 @@
-Todo:
-
-- documentation describing all functionalities
-- unit testing
-- deployment
-- clean code, comments
-
-
-- deny specific routes (/book/randomId)
-
-
-atspace.com
+- тестинг
+- презентация
+- файл с всички акаунти и пароли
+- примерни книги и акаунти
+- превод
