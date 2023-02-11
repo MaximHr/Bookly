@@ -8,7 +8,7 @@ import {Text} from '../Components/Translate';
 const SuccessPage = ({setUser, user}) => {
     const getUser = async() => {
         try {
-            const response = await axios.get(`http://localhost:5000/users/${user.id}`);
+            const response = await axios.get(`/users/${user.id}`);
             console.log(response);
             setUser(response.data.rows[0]);
             

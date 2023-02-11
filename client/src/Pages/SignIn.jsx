@@ -22,7 +22,7 @@ const SignIn = ({setUser, lang}) => {
 		try {
 			if(email && password.length > 5) {
 				const body = {email, password};
-				const response = await axios.post('http://localhost:5000/users/login', body);
+				const response = await axios.post('/users/login', body);
 				
 				if(response.status === 200) {
 					setUser(response.data);

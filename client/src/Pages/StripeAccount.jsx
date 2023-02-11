@@ -13,7 +13,7 @@ const StripeAccount = ({ setUser, user }) => {
         setLoading(true);
 		e.preventDefault();
 		try {
-			const response = await axios.post('http://localhost:5000/stripe/account', {email: user.email, id: user.id});
+			const response = await axios.post('/stripe/account', {email: user.email, id: user.id});
             setUser(response.data);
 			if(response.status === 200) {
 				window.location.href = response.data.url;

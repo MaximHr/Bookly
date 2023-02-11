@@ -13,7 +13,7 @@ const CommentSection = ({book, user, comments, setComments}) => {
 	
 	const updateComment = async(id) => {
 		try {
-			const response = await axios.put(`http://localhost:5000/comments/update/`, {
+			const response = await axios.put(`/comments/update/`, {
 				id: id,
 				text: updateValue
 			});
@@ -40,7 +40,7 @@ const CommentSection = ({book, user, comments, setComments}) => {
 	}
 	const deleteComment = async(id) => {
 		try {
-			const response = await axios.delete(`http://localhost:5000/comments/delete/${id}`);
+			const response = await axios.delete(`/comments/delete/${id}`);
 			
 			console.log(response.data);
 
@@ -63,7 +63,7 @@ const CommentSection = ({book, user, comments, setComments}) => {
 	const submitComment = async() => {
 		if(input.replaceAll(' ', '') !== '') {
 			try {
-				const response = await axios.post('http://localhost:5000/comments/create', {
+				const response = await axios.post('/comments/create', {
 					text: input,
 					user_id: user.id,
 					book_id: book.id

@@ -11,7 +11,7 @@ const MyBooks = ({user}) => {
 
 	const getBooks = async() => {
 		try {
-			const books = await axios.get(`http://localhost:5000/books/byAuthor/${user.id}`);
+			const books = await axios.get(`/books/byAuthor/${user.id}`);
 			setBooks(books.data);
 		}catch(err) {
 			toast.error("Sorry, couldn't load your books.", {
@@ -21,7 +21,7 @@ const MyBooks = ({user}) => {
 		}
 		try {
 			for(let i = 0;i < user.boughtbooks?.length;i ++) {
-				const response = await axios.get(`http://localhost:5000/books/${user.boughtbooks[i]}`);
+				const response = await axios.get(`/books/${user.boughtbooks[i]}`);
 				if(response.status === 200 && response.data.user_id !== user.id) {
 					setBoughtBooks([...boughtBooks, response.data])
 				}

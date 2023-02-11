@@ -18,7 +18,7 @@ const Home = ({user}) => {
 			let readingList = [];
 			user.readbooks?.map(async(book) => {
 				try {
-					const getYourBook = await axios.get(`http://localhost:5000/books/${book}`);
+					const getYourBook = await axios.get(`/books/${book}`);
 					if(getYourBook.status === 200) {
 						readingList.push(getYourBook.data);
 					}
@@ -37,7 +37,7 @@ const Home = ({user}) => {
 
 		try {
 			// взима книгите с най-много четения
-			const getPopularBooks = await axios.get(`http://localhost:5000/books/popular/0/250`);
+			const getPopularBooks = await axios.get(`/books/popular/0/250`);
 
 			if(getPopularBooks.status === 200) {
 				setPopularBooks(getPopularBooks.data);
@@ -51,7 +51,7 @@ const Home = ({user}) => {
 
 		try {
 			// взима най-скорошните книги
-			const getNewBooks = await axios.get(`http://localhost:5000/books/new/0/250`);
+			const getNewBooks = await axios.get(`/books/new/0/250`);
 
 			if(getNewBooks.status === 200){
 				setNewBooks(getNewBooks.data);
@@ -65,7 +65,7 @@ const Home = ({user}) => {
 
 		try {
 			//взима най-високо оценените книги
-			const getHighestRated = await axios.get(`http://localhost:5000/books/highestRated/0/250`);
+			const getHighestRated = await axios.get(`/books/highestRated/0/250`);
 
 			if(getHighestRated.status === 200) {
 				setHighestRatedBooks(getHighestRated.data);

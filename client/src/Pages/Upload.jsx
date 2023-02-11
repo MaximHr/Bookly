@@ -22,7 +22,7 @@ const Upload = ({user}) => {
 	const getStripeAccount = async(req, res) => {
 		try {
 			if(user.stripe_account) {
-				const response = await axios.get(`http://localhost:5000/stripe/account/${user.stripe_account}`);
+				const response = await axios.get(`/stripe/account/${user.stripe_account}`);
 
 				if(response.status === 200) {
 					setCanSell(response.data.details_submitted);
@@ -82,7 +82,7 @@ const Upload = ({user}) => {
 			let formData = new FormData();
 			formData.append('file', pdf);
 
-			await fetch('http://localhost:5000/books/uploadFile', {
+			await fetch('/books/uploadFile', {
 				method: 'POST',
 				body: formData
 			});
@@ -125,7 +125,7 @@ const Upload = ({user}) => {
 		} else {
 			try {
 				uploadFile();
-				const response = await axios.post('http://localhost:5000/books/upload', {
+				const response = await axios.post('/books/upload', {
 					title,
 					description,
 					price,

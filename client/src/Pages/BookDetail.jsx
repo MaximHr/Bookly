@@ -24,7 +24,7 @@ const BookDetail = ({user, setUser}) => {
 
 	const getComments = async(data) => {
 		try {	
-			const response = await axios.get(`http://localhost:5000/comments/byBook/${data.id}`);
+			const response = await axios.get(`/comments/byBook/${data.id}`);
 
 			if(response.status === 200) {
 				setComments(response.data);
@@ -41,7 +41,7 @@ const BookDetail = ({user, setUser}) => {
 		// ако книгата е безплатна или ти си автора, може да я четеш
 		if(book.price === 0 || book.user_id === user.id || user.boughtbooks?.includes(book.id)) {
 			try {
-				const response = await axios.put('http://localhost:5000/users/addBook', {userId: user.id, bookId: book.id});
+				const response = await axios.put('/users/addBook', {userId: user.id, bookId: book.id});
 				
 				setUser(response.data);
 				if(response.status === 200) {
@@ -58,7 +58,7 @@ const BookDetail = ({user, setUser}) => {
 			setLoading(true);
 			try {
 				console.log(user);
-				const response = await axios.post('http://localhost:5000/stripe/payment', {
+				const response = await axios.post('/stripe/payment', {
 					...book,
 					userId: user.id
 				});
@@ -78,7 +78,7 @@ const BookDetail = ({user, setUser}) => {
 
 	const getInfo = async() => {
 		try {
-			const response = await axios.get(`http://localhost:5000/books/details/${location.pathname.replace('/book/', '')}`);
+			const response = await axios.get(`/books/details/${location.pathname.replace('/book/', '')}`);
 			if(response.status === 200) {
 				if(response.data) {
 					setBook(response.data);				

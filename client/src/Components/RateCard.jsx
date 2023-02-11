@@ -11,7 +11,7 @@ const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating}) => {
 	const addRating = async() => {
 		try {
 			if(JSON.parse(yourRating) >=1 && JSON.parse(yourRating) <= 5) {
-				const response = await axios.put(`http://localhost:5000/books/addRating`, 
+				const response = await axios.put(`/books/addRating`, 
 				{
 					bookId: book.id,
 					rating: yourRating,

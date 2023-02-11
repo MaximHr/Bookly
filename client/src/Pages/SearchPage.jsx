@@ -13,7 +13,7 @@ const SearchPage = () => {
 
 	const fetchBooks = async(e) => {
 		try {
-			const response = await axios.get(`http://localhost:5000/books/search/${e}`);
+			const response = await axios.get(`/books/search/${e}`);
 
 			setSearchedByTitle(response.data.title);
 			setSearchedByAuthor(response.data.author);
