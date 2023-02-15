@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 
 const SignUp = ({setUser, lang}) => {
 	const [page, setPage] = useState(0);
@@ -83,13 +83,13 @@ const SignUp = ({setUser, lang}) => {
 		<div className="dark"  onMouseDown={(e) => closeHandler(e)}>
 			<div className={isScaled ? 'card scaled' : 'card'}>
 				<FontAwesomeIcon className='icon' icon={faXmark}  onClick={() => navigate('/')}/>
-				<h1><Text>CreateAcc</Text></h1>
+				<h1>{lang === 'bulgarian' ? Translate.CreateAcc.bulgarian : Translate.CreateAcc.british}</h1>
 				<form className="form">
 					{
 						page === 0 ? (
 							<>
 							<div>
-								<label><Text>Name</Text>: </label>
+								<label>{lang === 'bulgarian' ? Translate.Name.bulgarian : Translate.Name.british}: </label>
 								<input 
 									className='input'
 									value={name} 
@@ -99,7 +99,7 @@ const SignUp = ({setUser, lang}) => {
 								/>
 							</div>
 							<div>
-								<label><Text>Email</Text>: </label>
+								<label>{lang === 'bulgarian' ? Translate.Email.bulgarian : Translate.Email.british}: </label>
 								<input 
 									className='input'
 									type="email" 
@@ -110,7 +110,7 @@ const SignUp = ({setUser, lang}) => {
 								/>
 							</div>
 							<div>	
-								<label><Text>Password</Text>: </label>
+								<label>{lang === 'bulgarian' ? Translate.Password.bulgarian : Translate.Password.british}: </label>
 								<input 
 									className='input'
 									type="password" 
@@ -119,12 +119,12 @@ const SignUp = ({setUser, lang}) => {
 									onChange={(e) => setPassword(e.target.value)}
 								/>
 							</div>
-							<button className="btn" type='submit' onClick={() => setPage(1)}><Text>Next</Text> <FontAwesomeIcon icon={faArrowRight} /></button>
+							<button className="btn" type='submit' onClick={() => setPage(1)}>{lang === 'bulgarian' ? Translate.Next.bulgarian : Translate.Next.british} <FontAwesomeIcon icon={faArrowRight} /></button>
 							</>
 						) : (
 							<>
 							<div>
-								<label><Text>Age</Text>: </label>
+								<label>{lang === 'bulgarian' ? Translate.Age.bulgarian : Translate.Age.british}: </label>
 								<input 
 									className='input'
 									type="number" 
@@ -136,7 +136,7 @@ const SignUp = ({setUser, lang}) => {
 								/>
 							</div>
 							<div>
-								<label><Text>Bio</Text>: </label>
+								<label>{lang === 'bulgarian' ? Translate.Bio.bulgarian : Translate.Bio.british}: </label>
 								<input 
 									className='input'
 									type="text" 
@@ -146,7 +146,7 @@ const SignUp = ({setUser, lang}) => {
 								/>
 							</div>
 							<div>
-								<label><Text>Gender</Text>: </label>
+								<label>{lang === 'bulgarian' ? Translate.Gender.bulgarian : Translate.Gender.british}: </label>
 								<div className='radio-container'>
 									<input 
 										type="radio" 
@@ -154,7 +154,7 @@ const SignUp = ({setUser, lang}) => {
 										value="Male"
 										onChange={(e) => setGender(e.target.value)}
 									/>
-									<label><Text>Male</Text></label>
+									<label>{lang === 'bulgarian' ? Translate.Male.bulgarian : Translate.Male.british}</label>
 								</div>
 								<div className='radio-container'>
 									<input 
@@ -163,7 +163,7 @@ const SignUp = ({setUser, lang}) => {
 										value="Female"
 										onChange={(e) => setGender(e.target.value)}
 									/>
-									<label><Text>Female</Text></label>
+									<label>{lang === 'bulgarian' ? Translate.Female.bulgarian : Translate.Female.british}</label>
 								</div>
 								<div className='radio-container'>
 									<input 
@@ -172,12 +172,12 @@ const SignUp = ({setUser, lang}) => {
 										value="Other" 
 										onChange={(e) => setGender(e.target.value)}
 									/>
-									<label><Text>Other</Text></label>
+									<label>{lang === 'bulgarian' ? Translate.Other.bulgarian : Translate.Other.british}</label>
 								</div>
 							</div>
 							<div className='btn-container'>
-								<button className="btn outline" onClick={() => setPage(0)}><Text>Back</Text></button>
-								<button className="btn" onClick={submitHandler}><Text>Submit</Text></button>
+								<button className="btn outline" onClick={() => setPage(0)}>{lang === 'bulgarian' ? Translate.Back.bulgarian : Translate.Back.british}</button>
+								<button className="btn" onClick={submitHandler}>{lang === 'bulgarian' ? Translate.Submit.bulgarian : Translate.Submit.british}</button>
 							</div>
 								
 							</>

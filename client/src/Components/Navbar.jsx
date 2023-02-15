@@ -7,7 +7,7 @@ import { faSearch, faCaretDown, faXmark } from '@fortawesome/free-solid-svg-icon
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate'
 
 const Navbar = ({user, themeToggle, setThemeToggle, lang, setLang}) => {
 	const navigate = useNavigate();
@@ -114,8 +114,8 @@ const Navbar = ({user, themeToggle, setThemeToggle, lang, setLang}) => {
 				{
 					navType ? (
 						<>
-							<Link className='btn' id='sign1' to='/signIn'><Text>SignIn</Text></Link>
-							<Link className='btn' id='sign2' to='/signUp'><Text>SignUp</Text></Link>
+							<Link className='btn' id='sign1' to='/signIn'>{lang === 'bulgarian' ? Translate.SignIn.bulgarian : Translate.SignIn.british}</Link>
+							<Link className='btn' id='sign2' to='/signUp'>{lang === 'bulgarian' ? Translate.SignUp.bulgarian : Translate.SignUp.british}</Link>
 						</>
 					) : (
 						<>
@@ -138,7 +138,7 @@ const Navbar = ({user, themeToggle, setThemeToggle, lang, setLang}) => {
 								<button 
 									onClick={() => setDropDown(!dropDown)} className="btn"
 								>
-									<Text>Profile</Text>
+									{lang === 'bulgarian' ? Translate.Profile.bulgarian : Translate.Profile.british}
 									<FontAwesomeIcon icon={faCaretDown}/>
 								</button>
 							</div>

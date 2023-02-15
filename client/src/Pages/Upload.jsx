@@ -6,9 +6,9 @@ import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 
-const Upload = ({user}) => {
+const Upload = ({user, lang}) => {
 	const [title, setTitle] = useState('');
 	const [price, setPrice] = useState(0);
 	const [image, setImage] = useState(img);
@@ -160,11 +160,11 @@ const Upload = ({user}) => {
 	return (
 		<div className='uploadPage'>
 			<ToastContainer  />
-			<h1 className="title"><Text>Upload</Text></h1>
+			<h1 className="title">{lang === 'bulgarian' ? Translate.Upload.bulgarian : Translate.Upload.british}</h1>
 			<div className='together'>
 				<div className="left">
 					<div className='dflex'>
-						<label><Text>Title</Text>: </label>
+						<label>{lang === 'bulgarian' ? Translate.Title.bulgarian : Translate.Title.british}: </label>
 						<input 
 							type="text" 
 							className="input" 
@@ -174,7 +174,7 @@ const Upload = ({user}) => {
 						/>
 					</div>
 					<div className='dflex'>
-						<label><Text>Price</Text>: </label>
+						<label>{lang === 'bulgarian' ? Translate.Price.bulgarian : Translate.Price.british}: </label>
 						<input 
 							type="number" 
 							placeholder="Price"
@@ -185,7 +185,7 @@ const Upload = ({user}) => {
 						/>
 					</div>
 					<div className='dflex'>
-						<label><Text>Cover</Text>: </label>
+						<label>{lang === 'bulgarian' ? Translate.Cover.bulgarian : Translate.Cover.british}: </label>
 						<div>	
 							<input 
 								type="file" 
@@ -196,7 +196,7 @@ const Upload = ({user}) => {
 						</div>
 					</div>
 					<div className="dflex">
-						<label><Text>Desc</Text>: </label>
+						<label>{lang === 'bulgarian' ? Translate.Desc.bulgarian : Translate.Desc.british}: </label>
 						<textarea 
 							className='textarea' 	placeholder="Description"
 							value={description}
@@ -205,7 +205,7 @@ const Upload = ({user}) => {
 						</textarea>
 					</div>
 					<div className="dflex">
-						<label><Text>TagMore</Text></label>
+						<label>{lang === 'bulgarian' ? Translate.TagMore.bulgarian : Translate.TagMore.british}</label>
 						<div className="flex">
 							<input 
 								type="text" 
@@ -224,7 +224,7 @@ const Upload = ({user}) => {
 							/>
 							<button 
 								className="btn" 
-								onClick={() => addTag(tagInput)}><Text>Add</Text>
+								onClick={() => addTag(tagInput)}>{lang === 'bulgarian' ? Translate.Add.bulgarian : Translate.Add.british}
 							</button>
 						</div>
 						<div className="tags">
@@ -241,7 +241,7 @@ const Upload = ({user}) => {
 						</div>
 					</div>
 					<div className="dflex">
-						<label><Text>UploadMore</Text></label>
+						<label>{lang === 'bulgarian' ? Translate.UploadMore.bulgarian : Translate.UploadMore.british}</label>
 						<input 
 							type="file" 
 							accept='application/pdf' 
@@ -256,7 +256,7 @@ const Upload = ({user}) => {
 							{agree ? 
 							<FontAwesomeIcon icon={faCheck} /> : <></>}
 						</button> 
-						<p><Text>Agreement</Text></p>
+						<p>{lang === 'bulgarian' ? Translate.Agreement.bulgarian : Translate.Agreement.british}</p>
 					</div>
 				</div>
 				<div className="right">
@@ -270,7 +270,7 @@ const Upload = ({user}) => {
 				</div>
 			</div>
 			<div className='mtb5'>
-				<button onClick={uploadBook} className="btn green publish" ><Text>Publish</Text></button>
+				<button onClick={uploadBook} className="btn green publish" >{lang === 'bulgarian' ? Translate.Publish.bulgarian : Translate.Publish.british}</button>
 			</div>
 		</div>
 	)

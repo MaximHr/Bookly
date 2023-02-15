@@ -2,11 +2,11 @@ import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import Card from '../Components/Card';
 import { ToastContainer, toast } from 'react-toastify';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 
 
 //страницата с книгите за клиентът
-const Home = ({user}) => {
+const Home = ({user, lang}) => {
 	const [yourBooks, setYourBooks] = useState([]);
 	const [popularBooks, setPopularBooks] = useState([]);
 	const [newBooks, setNewBooks] = useState([]);
@@ -87,7 +87,7 @@ const Home = ({user}) => {
 			{
 				yourBooks.length > 0 ? 
 				<div className="row"> 
-					<h2><Text>List</Text></h2>
+					<h2>{lang === 'bulgarian' ? Translate.List.bulgarian : Translate.List.british}</h2>
 					<div className='scroll'>
 					{
 						yourBooks.map(book => {
@@ -108,7 +108,7 @@ const Home = ({user}) => {
 				</div> : <></>
 			}		
 			<div className="row">
-				<h2><Text>Popular</Text></h2>
+				<h2>{lang === 'bulgarian' ? Translate.Popular.bulgarian : Translate.Popular.british}</h2>
 				<div className='scroll'>
 				{
 					popularBooks.map(book => {
@@ -128,7 +128,7 @@ const Home = ({user}) => {
 				</div>
 			</div>
 			<div className="row">
-				<h2><Text>HighestRated</Text></h2>
+				<h2>{lang === 'bulgarian' ? Translate.HighestRated.bulgarian : Translate.HighestRated.british}</h2>
 				<div className='scroll'>
 				{
 					highestRatedBooks.map(book => {
@@ -148,7 +148,7 @@ const Home = ({user}) => {
 				</div>
 			</div>
 			<div className="row">
-				<h2><Text>New</Text></h2>
+				<h2>{lang === 'bulgarian' ? Translate.New.bulgarian : Translate.New.british}</h2>
 				<div className='scroll' >	
 				{
 					newBooks.map(book => {

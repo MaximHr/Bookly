@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 
-const ReadingPage = ({user}) => {
+const ReadingPage = ({user, lang}) => {
 	const location = useLocation();
 	const bookId = location.pathname.replace('/book/', '').replace('/read', '');
 	const [available, setAvailable] = useState(false);
@@ -26,9 +26,9 @@ const ReadingPage = ({user}) => {
 					src={require(`../files/${bookId}.pdf`) + "#view=FitH"}
 				></iframe> : 
 				<div className='access-denied'>
-					<h1><Text>AccessDenied</Text></h1>
-					<h2><Text>Security</Text></h2>
-					<Link to='/home' className='btn'><Text>GoHome</Text></Link>
+					<h1>{lang === 'bulgarian' ? Translate.AccessDenied.bulgarian : Translate.AccessDenied.british}</h1>
+					<h2>{lang === 'bulgarian' ? Translate.Security.bulgarian : Translate.Security.british}</h2>
+					<Link to='/home' className='btn'>{lang === 'bulgarian' ? Translate.GoHome.bulgarian : Translate.GoHome.british}</Link>
 				</div>
 			}
 		</div>

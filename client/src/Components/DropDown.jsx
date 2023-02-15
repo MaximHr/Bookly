@@ -4,17 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import bgFlag from '../Images/bgFlag.svg';
 import britishFlag from '../Images/britishFlag.svg';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 
 const DropDown = ({themeToggle, setThemeToggle, lang, setLang, setDropDown}) => {
     return (
         <div>
             <div className="outside" onClick={(e) => setDropDown(false)}></div>
             <ul className='dropdown' >
-                <Link to='/upload'><Text>Publish</Text></Link>
-                <Link to='/myBooks'><Text>MyBooks</Text></Link>
+                <Link to='/upload'>{lang === 'bulgarian' ? Translate.Publish.bulgarian : Translate.Publish.british}</Link>
+                <Link to='/myBooks'>{lang === 'bulgarian' ? Translate.MyBooks.bulgarian : Translate.MyBooks.british}</Link>
                 <div className='appearance'>
-                    <p><Text>Theme</Text></p>
+                    <p>{lang === 'bulgarian' ? Translate.Theme.bulgarian : Translate.Theme.british}</p>
                     <div 
                         className="toggle-container" 
                         onClick={() => setThemeToggle(!themeToggle)}
@@ -27,7 +27,7 @@ const DropDown = ({themeToggle, setThemeToggle, lang, setLang, setDropDown}) => 
                     </div> 
                 </div>
                 <div className='appearance'>
-                    <p><Text>Lang</Text></p>
+                    <p>{lang === 'bulgarian' ? Translate.Lang.bulgarian : Translate.Lang.british}</p>
                     <div 
                         className="toggle-container" 
                         onClick={() => {

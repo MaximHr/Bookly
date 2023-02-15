@@ -3,9 +3,9 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate'
 
-const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating}) => {
+const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating, lang}) => {
 	const [yourRating, setYourRating] = useState();
 	
 	const addRating = async() => {
@@ -51,8 +51,8 @@ const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating}) => {
 					}} 
 				/>
 				<div>
-					<h1><Text>Rate2</Text> {book.title}</h1>
-					<p>(<Text>FromTо</Text>)</p>
+					<h1>{lang === 'bulgarian' ? Translate.Rate2.bulgarian : Translate.Rate2.british} {book.title}</h1>
+					<p>({lang === 'bulgarian' ? Translate.FromTo.bulgarian : Translate.FromTo.british})</p>
 				</div>
 				<input 
 					type="number" 
@@ -62,7 +62,7 @@ const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating}) => {
 					value={yourRating}
 					onChange={(e) => setYourRating(e.target.value)}
 				/>
-				<button className="btn" onClick={addRating}><Text>Submit</Text></button>
+				<button className="btn" onClick={addRating}>{lang === 'bulgarian' ? Translate.Submit.bulgarian : Translate.Submit.british}</button>
 			</div>
 		</>
   	)

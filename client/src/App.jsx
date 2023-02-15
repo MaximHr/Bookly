@@ -3,7 +3,6 @@ import {Route, Routes} from 'react-router-dom';
 //components
 import Footer from './Components/Footer';
 import Navbar from './Components/Navbar';
-import {translator} from './Components/Translate';
 //pages
 import Landing from './Pages/Landing';
 import SignIn from './Pages/SignIn';
@@ -74,7 +73,7 @@ const App = () => {
 
 
 	return (
-		<translator.TranslationProvider activeLang={lang}>
+		<>
 			<Navbar 
 				user={user}
 				themeToggle={themeToggle} 
@@ -83,65 +82,65 @@ const App = () => {
 				setLang={setLang}
 			/>  
 			<Routes>
-				<Route path='*' element={<Page404 />}/>
-				<Route path='/' element={<Landing />} />
+				<Route path='*' element={<Page404 lang={lang}/>}/>
+				<Route path='/' element={<Landing lang={lang} />} />
 
 				<Route path='/signIn' element={
 					<>
-						<Landing />
+						<Landing lang={lang} />
 						<SignIn setUser={setUser} lang={lang}/>
 					</>} 
 				/>
 
 				<Route path='/signUp' element={
 					<>
-						<Landing />
+						<Landing lang={lang} />
 						<SignUp setUser={setUser} lang={lang}/>
 					</>} 
 				/>
 
-				<Route path='/stripeAuth' element={!user ? <Landing /> : <StripeAccount user={user} setUser={setUser}/>} 
+				<Route path='/stripeAuth' element={!user ? <Landing lang={lang} /> : <StripeAccount user={user} setUser={setUser} lang={lang}/>} 
 				/>
 
 				<Route 
 					path='/home' 
-					element={!user ? <Landing /> : <Home user={user}/>} 
+					element={!user ? <Landing lang={lang} /> : <Home user={user} lang={lang} />} 
 				/>
 
 				<Route 
 					path='book/:id' 
-					element={!user ? <Landing /> : <BookDetail user={user} setUser={setUser}/>}
+					element={!user ? <Landing lang={lang} /> : <BookDetail user={user} setUser={setUser} lang={lang}/>}
 				/>
 
 				<Route 
 					path='book/:id/read' 
-					element={!user ? <Landing /> : <ReadingPage user={user}/>}
+					element={!user ? <Landing lang={lang} /> : <ReadingPage user={user} lang={lang}/>}
 				/>
 
 				<Route 
 					path='upload'
-					element={!user ? <Landing /> : <Upload user={user}/>}
+					element={!user ? <Landing lang={lang} /> : <Upload  lang={lang} user={user}/>}
 				/>
 
 				<Route 
 					path='search/:name'
-					element={!user ? <Landing /> : <SearchPage/>}
+					element={!user ? <Landing lang={lang} /> : <SearchPage  lang={lang}/>}
 				/>
 				<Route 
 					path='myBooks'
-					element={!user ? <Landing /> : <MyBooks user={user}/>}
+					element={!user ? <Landing lang={lang} /> : <MyBooks  lang={lang} user={user}/>}
 				/>
 				<Route 
 					path='cancel'
-					element={!user ? <Landing /> : <CancelPage />}
+					element={!user ? <Landing lang={lang} /> : <CancelPage  lang={lang} />}
 				/>
 				<Route 
 					path='success'
-					element={!user ? <Landing /> : <SuccessPage user={user} setUser={setUser}/>}
+					element={!user ? <Landing lang={lang} /> : <SuccessPage user={user} setUser={setUser} lang={lang} />}
 				/>
 			</Routes>
-			<Footer />
-		</translator.TranslationProvider>
+			<Footer lang={lang} />
+		</>
 	)
 }
 

@@ -7,11 +7,11 @@ import { faStar, faStarHalfStroke, faSpinner} from '@fortawesome/free-solid-svg-
 import { ToastContainer, toast } from 'react-toastify';
 import RateCard from '../Components/RateCard';
 import CommentSection from '../Components/CommentSection';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 import Page404 from './Page404';
 
 // компонент, показващ страницата с повече информация за книгата
-const BookDetail = ({user, setUser}) => {
+const BookDetail = ({user, setUser, lang}) => {
 	const location = useLocation();
 	const [book, setBook] = useState({});
 	const navigate = useNavigate();
@@ -166,12 +166,12 @@ const BookDetail = ({user, setUser}) => {
 				<div className='details'>
 					<div className="left">
 						<img src={book.cover} alt={book.title} />
-						<p><Text>About</Text>:</p>
+						<p>{lang === 'bulgarian' ? Translate.About.bulgarian : Translate.About.british}:</p>
 						<ul>
-							<li><Text>Name</Text>: <i>{book.name}</i></li>
-							<li><Text>Age</Text>: <i>{book.age}</i></li>
-							<li><Text>Bio</Text>: <i>{book.bio}</i></li>
-							<li><Text>Gender</Text>: <i>{book.gender}</i></li>
+							<li>{lang === 'bulgarian' ? Translate.Name.bulgarian : Translate.Name.british}: <i>{book.name}</i></li>
+							<li>{lang === 'bulgarian' ? Translate.Age.bulgarian : Translate.Age.british}: <i>{book.age}</i></li>
+							<li>{lang === 'bulgarian' ? Translate.Bio.bulgarian : Translate.Bio.british}: <i>{book.bio}</i></li>
+							<li>{lang === 'bulgarian' ? Translate.Gender.bulgarian : Translate.Gender.british}: <i>{book.gender}</i></li>
 						</ul>
 					</div>
 					<div className="right">
@@ -196,18 +196,20 @@ const BookDetail = ({user, setUser}) => {
 						{
 							stars
 						}
-						<h2 className='rate-btn' onClick={rateHandler}><Text>Rate</Text></h2>
+						<h2 className='rate-btn' onClick={rateHandler}>{lang === 'bulgarian' ? Translate.Rate.bulgarian : Translate.Rate.british}</h2>
 						</div>
 						<p className='description'>{book.description}</p>
 						<div className="flex">
 							<p className='price'>
-								{book.price === 0 ? <Text>Free</Text>: book.price + " BGN"}
+								{book.price === 0 && lang ==='bulgarian' ? Translate.Free.bulgarian: book.price + " BGN"}
+								{book.price === 0 && lang ==='british' ? Translate.Free.british: book.price + " BGN"}
 							</p>
 							<button className="btn" onClick={readAndBuyHandler}>
-								{book.price === 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id ? <Text>StartReading</Text>: <>
+								{(book.price === 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id) && lang==='bulgarian' ? Translate.StartReading.bulgarian : <>
 								{ loading ? 
 									<FontAwesomeIcon icon={faSpinner} className='spinner'/> : <></>
-								} <Text>Buy</Text></>}
+								} {lang === 'bulgarian' ? Translate.StartReading.bulgarian : Translate.StartReading.british}</>}
+								{(book.price === 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id) && lang==='british' ? Translate.StartReading.british : <></>}
 							</button>
 						</div>
 						

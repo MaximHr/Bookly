@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 
 const SignIn = ({setUser, lang}) => {
 	const [email, setEmail] = useState('');
@@ -60,10 +60,10 @@ const SignIn = ({setUser, lang}) => {
 					icon={faXmark} 
 					onClick={() => navigate('/')}
 				/>
-				<h1><Text>Welcome</Text></h1>
+				<h1>{lang === 'bulgarian' ? Translate.Welcome.bulgarian : Translate.Welcome.british}</h1>
 				<form className="form" onSubmit={(e) => submitHandler(e)}>
 					<div>
-						<label><Text>Email</Text>: </label>
+						<label>{lang === 'bulgarian' ? Translate.Email.bulgarian : Translate.Email.british}: </label>
 						<input 
 							className='input'
 							type="text" 
@@ -74,7 +74,7 @@ const SignIn = ({setUser, lang}) => {
 						/>
 					</div>
 					<div>	
-						<label><Text>Password</Text>: </label>
+						<label>{lang === 'bulgarian' ? Translate.Password.bulgarian : Translate.Password.british}: </label>
 						<input 
 							className='input'
 							type="password" 
@@ -84,7 +84,7 @@ const SignIn = ({setUser, lang}) => {
 						/>
 					</div>
 					
-					<button className="btn" type='submit'><Text>SignIn</Text></button>
+					<button className="btn" type='submit'>{lang === 'bulgarian' ? Translate.SignIn.bulgarian : Translate.SignIn.british}</button>
 
 					
 					<p className={error === 'no errors' ? 'hidden error' : 'error'}>{error}</p>

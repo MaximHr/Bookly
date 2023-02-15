@@ -3,10 +3,9 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 
-
-const CommentSection = ({book, user, comments, setComments}) => {
+const CommentSection = ({book, user, comments, setComments, lang}) => {
 	const [input, setInput] = useState('');
 	const [updateCard, setUpdateCard] = useState(false);
 	const [updateValue, setUpdateValue] = useState('');
@@ -117,7 +116,7 @@ const CommentSection = ({book, user, comments, setComments}) => {
 					</div>
 				)
 			}
-			<h2><Text>Comments</Text>: </h2>
+			<h2>{lang === 'bulgarian' ? Translate.Comments.bulgarian : Translate.Comments.british}: </h2>
 			<div className='send-comment'>
 				<input 
 					type="text" 
@@ -131,7 +130,7 @@ const CommentSection = ({book, user, comments, setComments}) => {
 					}}
 					onChange={(e) => setInput(e.target.value)}
 				/>
-				<button className="btn" onClick={submitComment}><Text>Send</Text></button>
+				<button className="btn" onClick={submitComment}>{lang === 'bulgarian' ? Translate.Send.bulgarian : Translate.Send.british}</button>
 			</div>
 			<div>
 			{

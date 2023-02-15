@@ -3,9 +3,9 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Card from '../Components/Card';
 import { ToastContainer, toast } from 'react-toastify';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 
-const SearchPage = () => {
+const SearchPage = ({lang}) => {
 	const location = useLocation();
 	const [searchedByTags, setSearchedByTags] = useState([]);
 	const [searchedByAuthor, setSearchedByAuthor] = useState([]);
@@ -35,7 +35,7 @@ const SearchPage = () => {
 				<ToastContainer />
 				{ searchedByTitle.length > 0 ? 
 					<div className="row">
-						<h2><Text>BooksTitle</Text></h2>
+						<h2>{lang === 'bulgarian' ? Translate.BooksTitle.bulgarian : Translate.BooksTitle.british}</h2>
 						<div className="scroll">
 						{
 							searchedByTitle?.map(book => {
@@ -58,7 +58,7 @@ const SearchPage = () => {
 
 				{ searchedByAuthor.length > 0 ? 
 					<div className="row">
-						<h2><Text>BooksAuthor</Text></h2>
+						<h2>{lang === 'bulgarian' ? Translate.BooksAuthor.bulgarian : Translate.BooksAuthor.british}</h2>
 						<div className="scroll">
 						{
 							searchedByAuthor?.map(book => {
@@ -81,7 +81,7 @@ const SearchPage = () => {
 				
 				{ searchedByTags.length > 0 ? 
 					<div className="row">	
-						<h2><Text>BooksTags</Text></h2>
+						<h2>{lang === 'bulgarian' ? Translate.BooksTags.bulgarian : Translate.BooksTags.british}</h2>
 						<div className="scroll">
 						{
 							searchedByTags?.map(book => {
@@ -102,7 +102,10 @@ const SearchPage = () => {
 					</div>
 				: <></>}
 				{
-					searchedByAuthor.length  === 0 && searchedByTags.length === 0 && searchedByTitle.length === 0 ? <h1 id='sorry'><Text>NoBooks</Text></h1> : <></>
+					searchedByAuthor.length  === 0 && searchedByTags.length === 0 && searchedByTitle.length === 0 && lang === 'bulgarian' ? <h1 id='sorry'>{Translate.NoBooks.bulgarian}</h1> : <></>
+				}
+				{
+					searchedByAuthor.length  === 0 && searchedByTags.length === 0 && searchedByTitle.length === 0 && lang === 'british' ? <h1 id='sorry'>{Translate.NoBooks.british}</h1> : <></>
 				}
 			</div>
 	)

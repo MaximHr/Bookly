@@ -1,7 +1,5 @@
-import {createTranslations} from 'react-text-translator';
-
 //текстът на български и английски
-export const translator = createTranslations({
+const Translate = {
 	//stripeAuth page:
 	'stripeAuthInfo': {
 		bulgarian: 'Поздравления, упсешно се регистрирахте в Bookly. Но, ако искате да приемате плащания и да продавате книгите си трябва да създадете stripe акаунт. Ако ще публикувате творбите си безплатно или само ще четете, може да пропуснете тази стъпка. Комисионната на Bookly е 7% за всяка продадена книга. Чрез създаване на stripe акаунт, Вие приемате техните ',
@@ -305,6 +303,6 @@ export const translator = createTranslations({
 		bulgarian: 'Опитайте отново'
 	}
 
-});
+};
 
-export const Text = translator.Text;
+export default Translate; 

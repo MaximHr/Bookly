@@ -4,10 +4,10 @@ import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 
 // stripe акаунт за продавач
-const StripeAccount = ({ setUser, user }) => {
+const StripeAccount = ({ setUser, user, lang }) => {
     const [loading, setLoading] = useState(false);
 	const stripeOnBoarding = async(e) => {
         setLoading(true);
@@ -29,18 +29,18 @@ const StripeAccount = ({ setUser, user }) => {
     return (
         <div className='stripe-account'>
             <ToastContainer />
-            <h1><Text>LastStep</Text></h1>
+            <h1>{lang === 'bulgarian' ? Translate.LastStep.bulgarian : Translate.LastStep.british}</h1>
             <p className='stripe-info'>
-                <Text>stripeAuthInfo</Text> 
-                <a rel="noreferrer" target='_blank' href="https://stripe.com/en-bg/connect-account/legal/recipient"><Text>Conditions</Text></a>.
+            {lang === 'bulgarian' ? Translate.stripeAuthInfo.bulgarian : Translate.stripeAuthInfo.british} 
+                <a rel="noreferrer" target='_blank' href="https://stripe.com/en-bg/connect-account/legal/recipient">{lang === 'bulgarian' ? Translate.Conditions.bulgarian : Translate.Conditions.british}</a>.
             </p>
            
             <div className="btn-container">	
                 <button className="btn" onClick={(e) => stripeOnBoarding(e)}>
-                    {loading ? <FontAwesomeIcon title='Loading...' icon={faSpinner} className='spinner'/> : <></>} <Text>CreateStripeAcc</Text>
+                    {loading ? <FontAwesomeIcon title='Loading...' icon={faSpinner} className='spinner'/> : <></>} {lang === 'bulgarian' ? Translate.CreateStripeAcc.bulgarian : Translate.CreateStripeAcc.british}
                 </button>
                 <Link className="btn" to='/home'>
-                    <Text>Skip</Text>
+                {lang === 'bulgarian' ? Translate.Skip.bulgarian : Translate.Skip.british}
                     <FontAwesomeIcon icon={faArrowRight}/>
                 </Link>
             </div>

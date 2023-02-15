@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import Card from '../Components/Card';
 import { ToastContainer, toast } from 'react-toastify';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate';
 
 // страницата, която показва качените и закупените от авторa книги
-const MyBooks = ({user}) => {
+const MyBooks = ({user, lang}) => {
 	const [books, setBooks] = useState([]);
 	const [boughtBooks, setBoughtBooks] = useState([]);
 
@@ -44,7 +44,7 @@ const MyBooks = ({user}) => {
 			{
 				books.length > 0 ? (
 					<div className="row">
-						<h2><Text>PublishedBooks</Text></h2>
+						<h2>{lang === 'bulgarian' ? Translate.PublishedBooks.bulgarian : Translate.PublishedBooks.british}</h2>
 						<div className='scroll'>
 						{
 							books.map(book => {
@@ -65,13 +65,13 @@ const MyBooks = ({user}) => {
 						</div>
 					</div>
 				) : (
-					<h3 className='not-yet'><Text>NoPublishedBooks</Text></h3>
+					<h3 className='not-yet'>{lang === 'bulgarian' ? Translate.NoPublishedBooks.bulgarian : Translate.NoPublishedBooks.british}</h3>
 				)
 			}
 			{
 				boughtBooks.length > 0 ? (
 					<div className="row">
-						<h2><Text>BoughtBooks</Text></h2>
+						<h2>{lang === 'bulgarian' ? Translate.BoughtBooks.bulgarian : Translate.BoughtBooks.british}</h2>
 						<div className='scroll'>
 						{
 							boughtBooks.map(book => {
@@ -91,7 +91,7 @@ const MyBooks = ({user}) => {
 						</div>
 					</div>
 				) : (
-					<h3 className='not-yet'><Text>NoBoughtBooks</Text></h3>
+					<h3 className='not-yet'>{lang === 'bulgarian' ? Translate.NoBoughtBooks.bulgarian : Translate.NoBoughtBooks.british}</h3>
 				)
 			}
 		</div>

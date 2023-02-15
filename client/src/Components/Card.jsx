@@ -2,11 +2,12 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faStar } from '@fortawesome/free-solid-svg-icons';
-import {Text} from '../Components/Translate';
+import Translate from '../Components/Translate'
 
 // компонент, който показва основните характеристики(име, снимка, цена, оценка) на книгата и води до BookDetail страницата.
 
 const Card = (props) => {
+	console.log(Translate)
 	return (
 		<div className='book-card' >
 			<img src={props.img} alt="Cover" />
@@ -33,7 +34,7 @@ const Card = (props) => {
 							<></>
 						}
 					</div>
-					<Link className="btn" to={`/book/${props.id}`}><Text>Read</Text>
+					<Link className="btn" to={`/book/${props.id}`}>{props.lang === 'bulgarian' ? Translate.Read.bulgarian : Translate.Read.british}
 					</Link>
 				</div>
 			</div>

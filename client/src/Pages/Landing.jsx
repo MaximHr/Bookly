@@ -1,15 +1,14 @@
 import React from 'react';
 import person from '../Images/Person.png';
 import { Link } from 'react-router-dom';
-import {Text} from '../Components/Translate';
-
-const Landing = () => {
+import Translate from '../Components/Translate';
+const Landing = ({lang}) => {
 	return (
 		<div className='landing container'>
 		<div>
 			<h1 className="title">Bookly</h1>
-			<p><Text>BooklyInfo</Text></p>
-			<Link className="btn" to='/signUp'><Text>CreateAcc</Text></Link>
+			<p>{lang === 'bulgarian' ? Translate.BooklyInfo.bulgarian : Translate.BooklyInfo.british}</p>
+			<Link className="btn" to='/signUp'>{lang === 'bulgarian' ? Translate.CreateAcc.bulgarian : Translate.CreateAcc.british}</Link>
 		</div>
 		<div>
 			<img src={person} alt='Person reading book' />
