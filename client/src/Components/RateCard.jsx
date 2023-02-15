@@ -11,7 +11,7 @@ const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating, lang}
 	const addRating = async() => {
 		try {
 			if(JSON.parse(yourRating) >=1 && JSON.parse(yourRating) <= 5) {
-				const response = await axios.put(`/books/addRating`, 
+				const response = await axios.put(`http://188.138.70.154:8000/books/addRating`, 
 				{
 					bookId: book.id,
 					rating: yourRating,
@@ -52,7 +52,7 @@ const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating, lang}
 				/>
 				<div>
 					<h1>{lang === 'bulgarian' ? Translate.Rate2.bulgarian : Translate.Rate2.british} {book.title}</h1>
-					<p>({lang === 'bulgarian' ? Translate.FromTo.bulgarian : Translate.FromTo.british})</p>
+					<p>({lang === 'bulgarian' ? Translate.FromTо.bulgarian : Translate.FromTо.british})</p>
 				</div>
 				<input 
 					type="number" 

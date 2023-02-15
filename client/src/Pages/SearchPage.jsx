@@ -13,7 +13,7 @@ const SearchPage = ({lang}) => {
 
 	const fetchBooks = async(e) => {
 		try {
-			const response = await axios.get(`/books/search/${e}`);
+			const response = await axios.get(`http://188.138.70.154:8000/books/search/${e}`);
 
 			setSearchedByTitle(response.data.title);
 			setSearchedByAuthor(response.data.author);
@@ -41,6 +41,7 @@ const SearchPage = ({lang}) => {
 							searchedByTitle?.map(book => {
 								return(	
 									<Card 
+										lang={lang}
 										key={book.id}
 										id={book.file}
 										img={book.cover}
@@ -64,6 +65,7 @@ const SearchPage = ({lang}) => {
 							searchedByAuthor?.map(book => {
 								return(	
 									<Card 
+										lang={lang}
 										key={book.id}
 										id={book.file}
 										img={book.cover}
@@ -87,6 +89,7 @@ const SearchPage = ({lang}) => {
 							searchedByTags?.map(book => {
 								return(	
 									<Card 
+										lang={lang}
 										key={book.id}
 										id={book.file}
 										img={book.cover}

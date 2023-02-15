@@ -22,7 +22,7 @@ const Upload = ({user, lang}) => {
 	const getStripeAccount = async(req, res) => {
 		try {
 			if(user.stripe_account) {
-				const response = await axios.get(`/stripe/account/${user.stripe_account}`);
+				const response = await axios.get(`http://188.138.70.154:8000/stripe/account/${user.stripe_account}`);
 
 				if(response.status === 200) {
 					setCanSell(response.data.details_submitted);
@@ -107,7 +107,6 @@ const Upload = ({user, lang}) => {
 				position: 'top-center'
 			})
 		} else if(price != 0 && price !== '' && canSell === false) {
-			console.log(price);
 			toast.error('You can publish your books for free but you can not sell them because you do not have a verified stripe account.', {
 				autoClose: 4500,
 				position: 'top-center'
@@ -125,7 +124,7 @@ const Upload = ({user, lang}) => {
 		} else {
 			try {
 				uploadFile();
-				const response = await axios.post('/books/upload', {
+				const response = await axios.post('http://188.138.70.154:8000/books/upload', {
 					title,
 					description,
 					price,
@@ -261,6 +260,7 @@ const Upload = ({user, lang}) => {
 				</div>
 				<div className="right">
 					<Card 
+						lang={lang}
 						img={image} 
 						title={title} 
 						price={price} 

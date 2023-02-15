@@ -24,7 +24,7 @@ const BookDetail = ({user, setUser, lang}) => {
 
 	const getComments = async(data) => {
 		try {	
-			const response = await axios.get(`/comments/byBook/${data.id}`);
+			const response = await axios.get(`http://188.138.70.154:8000/comments/byBook/${data.id}`);
 
 			if(response.status === 200) {
 				setComments(response.data);
@@ -41,7 +41,7 @@ const BookDetail = ({user, setUser, lang}) => {
 		// ако книгата е безплатна или ти си автора, може да я четеш
 		if(book.price === 0 || book.user_id === user.id || user.boughtbooks?.includes(book.id)) {
 			try {
-				const response = await axios.put('/users/addBook', {userId: user.id, bookId: book.id});
+				const response = await axios.put('http://188.138.70.154:8000/users/addBook', {userId: user.id, bookId: book.id});
 				
 				setUser(response.data);
 				if(response.status === 200) {
@@ -58,7 +58,7 @@ const BookDetail = ({user, setUser, lang}) => {
 			setLoading(true);
 			try {
 				console.log(user);
-				const response = await axios.post('/stripe/payment', {
+				const response = await axios.post('http://188.138.70.154:8000/stripe/payment', {
 					...book,
 					userId: user.id
 				});
@@ -78,7 +78,7 @@ const BookDetail = ({user, setUser, lang}) => {
 
 	const getInfo = async() => {
 		try {
-			const response = await axios.get(`/books/details/${location.pathname.replace('/book/', '')}`);
+			const response = await axios.get(`http://188.138.70.154:8000/books/details/${location.pathname.replace('/book/', '')}`);
 			if(response.status === 200) {
 				if(response.data) {
 					setBook(response.data);				
@@ -201,15 +201,15 @@ const BookDetail = ({user, setUser, lang}) => {
 						<p className='description'>{book.description}</p>
 						<div className="flex">
 							<p className='price'>
-								{book.price === 0 && lang ==='bulgarian' ? Translate.Free.bulgarian: book.price + " BGN"}
-								{book.price === 0 && lang ==='british' ? Translate.Free.british: book.price + " BGN"}
+								{(book.price == 0 && lang ==='bulgarian') ? Translate.Free.bulgarian: <></>}
+								{(book.price == 0 && lang ==='british') ? Translate.Free.british: <></>}
+								{(book.price != 0) ? book.price + ' BGN': <></>}
 							</p>
 							<button className="btn" onClick={readAndBuyHandler}>
-								{(book.price === 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id) && lang==='bulgarian' ? Translate.StartReading.bulgarian : <>
+							{book.price === 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id ? Translate.StartReading.british: <>
 								{ loading ? 
 									<FontAwesomeIcon icon={faSpinner} className='spinner'/> : <></>
-								} {lang === 'bulgarian' ? Translate.StartReading.bulgarian : Translate.StartReading.british}</>}
-								{(book.price === 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id) && lang==='british' ? Translate.StartReading.british : <></>}
+								} {lang === 'bulgarian' ? Translate.Buy.bulgarian : Translate.Buy.british}</>}
 							</button>
 						</div>
 						
@@ -219,6 +219,7 @@ const BookDetail = ({user, setUser, lang}) => {
 					toggleCard ? <RateCard 
 						user={user} 
 						book={book} 
+						lang={lang}
 						setUser={setUser}
 						setBook={setBook}
 						setRating={setRating}
@@ -226,6 +227,7 @@ const BookDetail = ({user, setUser, lang}) => {
 					/> : <></>
 				}
 				<CommentSection 
+					lang={lang}
 					book={book} 
 					user={user} 
 					comments={comments} 

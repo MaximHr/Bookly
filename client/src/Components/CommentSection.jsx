@@ -12,7 +12,7 @@ const CommentSection = ({book, user, comments, setComments, lang}) => {
 	
 	const updateComment = async(id) => {
 		try {
-			const response = await axios.put(`/comments/update/`, {
+			const response = await axios.put(`http://188.138.70.154:8000/comments/update/`, {
 				id: id,
 				text: updateValue
 			});
@@ -39,9 +39,7 @@ const CommentSection = ({book, user, comments, setComments, lang}) => {
 	}
 	const deleteComment = async(id) => {
 		try {
-			const response = await axios.delete(`/comments/delete/${id}`);
-			
-			console.log(response.data);
+			const response = await axios.delete(`http://188.138.70.154:8000/comments/delete/${id}`);
 
 			if(response.status === 200) {
 				const newComments = comments.filter(comment => comment.id !== id);
@@ -62,12 +60,11 @@ const CommentSection = ({book, user, comments, setComments, lang}) => {
 	const submitComment = async() => {
 		if(input.replaceAll(' ', '') !== '') {
 			try {
-				const response = await axios.post('/comments/create', {
+				const response = await axios.post('http://188.138.70.154:8000/comments/create', {
 					text: input,
 					user_id: user.id,
 					book_id: book.id
 				});
-				console.log(response)
 				if(response.status === 200) {
 					toast.success('Comment sent !', {
 						autoClose: 2500,

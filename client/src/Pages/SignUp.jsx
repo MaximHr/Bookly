@@ -35,7 +35,7 @@ const SignUp = ({setUser, lang}) => {
 			try {
 				if(name && email && age > 0 && age < 150 && bio && gender && password.length > 5) {
 					const body = {name, email, password, age, bio, gender};
-					const response = await axios.post('/users/register', body);
+					const response = await axios.post('http://188.138.70.154:8000/users/register', body);
 					
 					if(response.status === 200) {
 						setUser(response.data);

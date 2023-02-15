@@ -7,7 +7,6 @@ import Translate from '../Components/Translate'
 // компонент, който показва основните характеристики(име, снимка, цена, оценка) на книгата и води до BookDetail страницата.
 
 const Card = (props) => {
-	console.log(Translate)
 	return (
 		<div className='book-card' >
 			<img src={props.img} alt="Cover" />

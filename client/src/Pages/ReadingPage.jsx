@@ -8,7 +8,7 @@ const ReadingPage = ({user, lang}) => {
 	const [available, setAvailable] = useState(false);
 
 	useEffect(() => {
-		if(location.state?.price === 0 || location.state?.id === user.id) {
+		if(location.state?.price == 0 || location.state?.user_id === user.id) {
 			setAvailable(true);
 		} else if(location.state === null){
 			setAvailable(false);

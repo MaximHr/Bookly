@@ -18,7 +18,7 @@ const Home = ({user, lang}) => {
 			let readingList = [];
 			user.readbooks?.map(async(book) => {
 				try {
-					const getYourBook = await axios.get(`/books/${book}`);
+					const getYourBook = await axios.get(`http://188.138.70.154:8000/books/${book}`);
 					if(getYourBook.status === 200) {
 						readingList.push(getYourBook.data);
 					}
@@ -37,7 +37,7 @@ const Home = ({user, lang}) => {
 
 		try {
 			// взима книгите с най-много четения
-			const getPopularBooks = await axios.get(`/books/popular/0/250`);
+			const getPopularBooks = await axios.get(`http://188.138.70.154:8000/books/popular/0/250`);
 
 			if(getPopularBooks.status === 200) {
 				setPopularBooks(getPopularBooks.data);
@@ -51,7 +51,7 @@ const Home = ({user, lang}) => {
 
 		try {
 			// взима най-скорошните книги
-			const getNewBooks = await axios.get(`/books/new/0/250`);
+			const getNewBooks = await axios.get(`http://188.138.70.154:8000/books/new/0/250`);
 
 			if(getNewBooks.status === 200){
 				setNewBooks(getNewBooks.data);
@@ -65,7 +65,7 @@ const Home = ({user, lang}) => {
 
 		try {
 			//взима най-високо оценените книги
-			const getHighestRated = await axios.get(`/books/highestRated/0/250`);
+			const getHighestRated = await axios.get(`http://188.138.70.154:8000/books/highestRated/0/250`);
 
 			if(getHighestRated.status === 200) {
 				setHighestRatedBooks(getHighestRated.data);
@@ -93,6 +93,7 @@ const Home = ({user, lang}) => {
 						yourBooks.map(book => {
 							return(	
 								<Card 
+									lang={lang}
 									key={book.id}
 									id={book.file}
 									img={book.cover}
@@ -114,6 +115,7 @@ const Home = ({user, lang}) => {
 					popularBooks.map(book => {
 						return(	
 							<Card 
+								lang={lang}
 								key={book.id}
 								id={book.file}
 								img={book.cover}
@@ -134,6 +136,7 @@ const Home = ({user, lang}) => {
 					highestRatedBooks.map(book => {
 						return(	
 							<Card 
+								lang={lang}
 								key={book.id}
 								id={book.file}
 								img={book.cover}
@@ -154,6 +157,7 @@ const Home = ({user, lang}) => {
 					newBooks.map(book => {
 						return(	
 							<Card 
+								lang={lang}
 								key={book.id}
 								id={book.file}
 								img={book.cover}
