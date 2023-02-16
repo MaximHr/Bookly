@@ -82,7 +82,7 @@ const Upload = ({user, lang}) => {
 			let formData = new FormData();
 			formData.append('file', pdf);
 
-			await fetch('/books/uploadFile', {
+			await fetch('http://188.138.70.154:8000/books/uploadFile', {
 				method: 'POST',
 				body: formData
 			});
