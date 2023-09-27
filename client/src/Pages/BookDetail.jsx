@@ -9,6 +9,7 @@ import RateCard from '../Components/RateCard';
 import CommentSection from '../Components/CommentSection';
 import Translate from '../Components/Translate';
 import Page404 from './Page404';
+import serverurl from '../serverurl';
 
 // компонент, показващ страницата с повече информация за книгата
 const BookDetail = ({user, setUser, lang}) => {
@@ -24,7 +25,7 @@ const BookDetail = ({user, setUser, lang}) => {
 
 	const getComments = async(data) => {
 		try {	
-			const response = await axios.get(`http://188.138.70.154:8000/comments/byBook/${data.id}`);
+			const response = await axios.get(serverurl + `/comments/byBook/${data.id}`);
 
 			if(response.status === 200) {
 				setComments(response.data);
@@ -41,7 +42,7 @@ const BookDetail = ({user, setUser, lang}) => {
 		// ако книгата е безплатна или ти си автора, може да я четеш
 		if(book.price === 0 || book.user_id === user.id || user.boughtbooks?.includes(book.id)) {
 			try {
-				const response = await axios.put('http://188.138.70.154:8000/users/addBook', {userId: user.id, bookId: book.id});
+				const response = await axios.put(serverurl + `/users/addBook`, {userId: user.id, bookId: book.id});
 				
 				setUser(response.data);
 				if(response.status === 200) {
@@ -58,7 +59,7 @@ const BookDetail = ({user, setUser, lang}) => {
 			setLoading(true);
 			try {
 				console.log(user);
-				const response = await axios.post('http://188.138.70.154:8000/stripe/payment', {
+				const response = await axios.post(serverurl + `/stripe/payment`, {
 					...book,
 					userId: user.id
 				});
@@ -78,7 +79,7 @@ const BookDetail = ({user, setUser, lang}) => {
 
 	const getInfo = async() => {
 		try {
-			const response = await axios.get(`http://188.138.70.154:8000/books/details/${location.pathname.replace('/book/', '')}`);
+			const response = await axios.get(serverurl + `/books/details/${location.pathname.replace('/book/', '')}`);
 			if(response.status === 200) {
 				if(response.data) {
 					setBook(response.data);				
@@ -206,7 +207,7 @@ const BookDetail = ({user, setUser, lang}) => {
 								{(book.price != 0) ? book.price + ' BGN': <></>}
 							</p>
 							<button className="btn" onClick={readAndBuyHandler}>
-							{book.price === 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id ? Translate.StartReading.british: <>
+							{book.price == 0 || user.boughtbooks?.includes(book.id) || book.user_id === user.id ? Translate.StartReading.british: <>
 								{ loading ? 
 									<FontAwesomeIcon icon={faSpinner} className='spinner'/> : <></>
 								} {lang === 'bulgarian' ? Translate.Buy.bulgarian : Translate.Buy.british}</>}

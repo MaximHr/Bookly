@@ -7,6 +7,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Translate from '../Components/Translate';
+import serverurl from '../serverurl';
 
 const Upload = ({user, lang}) => {
 	const [title, setTitle] = useState('');
@@ -22,7 +23,7 @@ const Upload = ({user, lang}) => {
 	const getStripeAccount = async(req, res) => {
 		try {
 			if(user.stripe_account) {
-				const response = await axios.get(`http://188.138.70.154:8000/stripe/account/${user.stripe_account}`);
+				const response = await axios.get(serverurl + `/stripe/account/${user.stripe_account}`);
 
 				if(response.status === 200) {
 					setCanSell(response.data.details_submitted);
@@ -82,7 +83,7 @@ const Upload = ({user, lang}) => {
 			let formData = new FormData();
 			formData.append('file', pdf);
 
-			await fetch('http://188.138.70.154:8000/books/uploadFile', {
+			await fetch(serverurl + '/books/uploadFile', {
 				method: 'POST',
 				body: formData
 			});
@@ -124,7 +125,7 @@ const Upload = ({user, lang}) => {
 		} else {
 			try {
 				uploadFile();
-				const response = await axios.post('http://188.138.70.154:8000/books/upload', {
+				const response = await axios.post(serverurl + '/books/upload', {
 					title,
 					description,
 					price,

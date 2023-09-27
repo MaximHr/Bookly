@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import Translate from '../Components/Translate';
+import serverurl from '../serverurl';
 
 // stripe акаунт за продавач
 const StripeAccount = ({ setUser, user, lang }) => {
@@ -13,7 +14,7 @@ const StripeAccount = ({ setUser, user, lang }) => {
         setLoading(true);
 		e.preventDefault();
 		try {
-			const response = await axios.post('http://188.138.70.154:8000/stripe/account', {email: user.email, id: user.id});
+			const response = await axios.post(serverurl + '/stripe/account', {email: user.email, id: user.id});
             setUser(response.data);
 			if(response.status === 200) {
 				window.location.href = response.data.url;

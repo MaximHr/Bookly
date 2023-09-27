@@ -4,6 +4,7 @@ import axios from 'axios';
 import Card from '../Components/Card';
 import { ToastContainer, toast } from 'react-toastify';
 import Translate from '../Components/Translate';
+import serverurl from '../serverurl';
 
 const SearchPage = ({lang}) => {
 	const location = useLocation();
@@ -13,7 +14,7 @@ const SearchPage = ({lang}) => {
 
 	const fetchBooks = async(e) => {
 		try {
-			const response = await axios.get(`http://188.138.70.154:8000/books/search/${e}`);
+			const response = await axios.get(serverurl + `/books/search/${e}`);
 
 			setSearchedByTitle(response.data.title);
 			setSearchedByAuthor(response.data.author);

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import Translate from '../Components/Translate'
+import serverurl from '../serverurl';
 
 const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating, lang}) => {
 	const [yourRating, setYourRating] = useState();
@@ -11,7 +12,7 @@ const RateCard = ({user, book, setToggleCard, setUser, setBook, setRating, lang}
 	const addRating = async() => {
 		try {
 			if(JSON.parse(yourRating) >=1 && JSON.parse(yourRating) <= 5) {
-				const response = await axios.put(`http://188.138.70.154:8000/books/addRating`, 
+				const response = await axios.put(serverurl + `/books/addRating`, 
 				{
 					bookId: book.id,
 					rating: yourRating,

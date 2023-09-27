@@ -4,6 +4,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Translate from '../Components/Translate';
+import serverurl from '../serverurl';
 
 const SignIn = ({setUser, lang}) => {
 	const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ const SignIn = ({setUser, lang}) => {
 		try {
 			if(email && password.length > 5) {
 				const body = {email, password};
-				const response = await axios.post('http://188.138.70.154:8000/users/login', body);
+				const response = await axios.post(serverurl + '/users/login', body);
 				
 				if(response.status === 200) {
 					setUser(response.data);

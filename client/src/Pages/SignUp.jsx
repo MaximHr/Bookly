@@ -4,6 +4,7 @@ import { faXmark, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Translate from '../Components/Translate';
+import serverurl from '../serverurl';
 
 const SignUp = ({setUser, lang}) => {
 	const [page, setPage] = useState(0);
@@ -35,7 +36,7 @@ const SignUp = ({setUser, lang}) => {
 			try {
 				if(name && email && age > 0 && age < 150 && bio && gender && password.length > 5) {
 					const body = {name, email, password, age, bio, gender};
-					const response = await axios.post('http://188.138.70.154:8000/users/register', body);
+					const response = await axios.post(serverurl + '/users/register', body);
 					
 					if(response.status === 200) {
 						setUser(response.data);

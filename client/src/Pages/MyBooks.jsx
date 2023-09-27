@@ -3,6 +3,7 @@ import axios from 'axios';
 import Card from '../Components/Card';
 import { ToastContainer, toast } from 'react-toastify';
 import Translate from '../Components/Translate';
+import serverurl from '../serverurl';
 
 // страницата, която показва качените и закупените от авторa книги
 const MyBooks = ({user, lang}) => {
@@ -11,7 +12,7 @@ const MyBooks = ({user, lang}) => {
 
 	const getBooks = async() => {
 		try {
-			const books = await axios.get(`http://188.138.70.154:8000/books/byAuthor/${user.id}`);
+			const books = await axios.get(serverurl + `/books/byAuthor/${user.id}`);
 			setBooks(books.data);
 		}catch(err) {
 			toast.error("Sorry, couldn't load your books.", {
@@ -21,7 +22,7 @@ const MyBooks = ({user, lang}) => {
 		}
 		try {
 			for(let i = 0;i < user.boughtbooks?.length;i ++) {
-				const response = await axios.get(`http://188.138.70.154:8000/books/${user.boughtbooks[i]}`);
+				const response = await axios.get(serverurl + `/books/${user.boughtbooks[i]}`);
 				if(response.status === 200 && response.data.user_id !== user.id) {
 					setBoughtBooks([...boughtBooks, response.data])
 				}

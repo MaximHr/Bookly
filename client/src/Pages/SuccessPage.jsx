@@ -3,11 +3,12 @@ import successImage from '../Images/success.svg';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Translate from '../Components/Translate';
+import serverurl from '../serverurl';
 
 const SuccessPage = ({setUser, user, lang}) => {
     const getUser = async() => {
         try {
-            const response = await axios.get(`http://188.138.70.154:8000/users/${user.id}`);
+            const response = await axios.get(serverurl + `/users/${user.id}`);
             console.log(response);
             setUser(response.data.rows[0]);
             

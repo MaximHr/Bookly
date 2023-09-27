@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import Translate from '../Components/Translate';
+import serverurl from '../serverurl';
 
 const CommentSection = ({book, user, comments, setComments, lang}) => {
 	const [input, setInput] = useState('');
@@ -12,7 +13,7 @@ const CommentSection = ({book, user, comments, setComments, lang}) => {
 	
 	const updateComment = async(id) => {
 		try {
-			const response = await axios.put(`http://188.138.70.154:8000/comments/update/`, {
+			const response = await axios.put(serverurl + `/comments/update/`, {
 				id: id,
 				text: updateValue
 			});
@@ -39,7 +40,7 @@ const CommentSection = ({book, user, comments, setComments, lang}) => {
 	}
 	const deleteComment = async(id) => {
 		try {
-			const response = await axios.delete(`http://188.138.70.154:8000/comments/delete/${id}`);
+			const response = await axios.delete(serverurl + `/comments/delete/${id}`);
 
 			if(response.status === 200) {
 				const newComments = comments.filter(comment => comment.id !== id);
@@ -60,7 +61,7 @@ const CommentSection = ({book, user, comments, setComments, lang}) => {
 	const submitComment = async() => {
 		if(input.replaceAll(' ', '') !== '') {
 			try {
-				const response = await axios.post('http://188.138.70.154:8000/comments/create', {
+				const response = await axios.post(serverurl + '/comments/create', {
 					text: input,
 					user_id: user.id,
 					book_id: book.id
