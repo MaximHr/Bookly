@@ -40,13 +40,16 @@ const BookDetail = ({user, setUser, lang}) => {
 
 	const readAndBuyHandler = async() => {
 		// ако книгата е безплатна или ти си автора, може да я четеш
-		if(book.price === 0 || book.user_id === user.id || user.boughtbooks?.includes(book.id)) {
+		console.log(book.price);
+		if(book.price == 0 || book.user_id === user.id || user.boughtbooks?.includes(book.id)) {
 			try {
 				const response = await axios.put(serverurl + `/users/addBook`, {userId: user.id, bookId: book.id});
-				
 				setUser(response.data);
 				if(response.status === 200) {
-					navigate('./read', { state: {...book} });
+					toast.info('Due to server hosting issues, we can not open the book.', {
+						autoClose: 2500, position: 'top-center'
+					});
+					// navigate('./read', { state: {...book} });
 				}
 			} catch(err) {
 				toast.error('Sorry, there was an error. Try again later', {
